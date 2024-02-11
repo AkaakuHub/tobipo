@@ -6,7 +6,7 @@ import LoggedIn from "./loggedinPage"
 import { getTokenFromUrl } from './login/Spotify';
 import Cookies from 'js-cookie';
 
-import { CircularProgress } from '@mui/material';
+import LoadingCircleCustom1 from './components/LoadingCircleCustom1';
 
 function App() {
   const [token, setToken] = useState("")
@@ -30,24 +30,32 @@ function App() {
         setToken(token)
       }
     }
-    setLoading(false);
+
 
     if (Cookies.get('error_message')) {
       setErrorMessage(Cookies.get('error_message') ?? '');
       setHasErrorMessage(true);
       Cookies.remove('error_message');
     }
+
+    setLoading(false);
   }, [])
 
   return (
     <div className="App">
-      {loading ? (
-        <div className='loading'>
-          <CircularProgress size={100} />
-        </div>
-      ) : (
-        token ? <LoggedIn token={token} /> : <Login />
-      )}
+      {loading ? (<div></div>) :
+        (
+          token ? (
+            <>
+              <LoggedIn token={token} />
+            </>
+          ) : (
+            <>
+              <Login />
+              {/* <LoadingCircleCustom1 loading={loading} /> */}
+            </>
+          )
+        )}
       {hasErrorMessage && (
         <div>
           {errorMessage}
