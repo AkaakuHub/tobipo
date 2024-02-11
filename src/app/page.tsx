@@ -12,6 +12,9 @@ function App() {
   const [token, setToken] = useState("")
   const [loading, setLoading] = useState(true);
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [hasErrorMessage, setHasErrorMessage] = useState(false);
+
   useEffect(() => {
     const hash = getTokenFromUrl();
     window.location.hash = "";
@@ -28,6 +31,12 @@ function App() {
       }
     }
     setLoading(false);
+
+    if (Cookies.get('error_message')) {
+      setErrorMessage(Cookies.get('error_message') ?? '');
+      setHasErrorMessage(true);
+      Cookies.remove('error_message');
+    }
   }, [])
 
   return (
@@ -36,9 +45,14 @@ function App() {
         <div className='loading'>
           <CircularProgress size={100} />
         </div>
-      ) :
-        token ? <LoggedIn token={token}
-        /> : <Login />}
+      ) : (
+        token ? <LoggedIn token={token} /> : <Login />
+      )}
+      {hasErrorMessage && (
+        <div>
+          {errorMessage}
+        </div>
+      )}
     </div>
   );
 }

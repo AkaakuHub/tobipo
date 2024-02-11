@@ -1,19 +1,24 @@
+// getTobipoPlaylist.ts
 import { NextRequest } from "next/server";
 import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
 
 export async function POST(req: NextRequest) {
-    try{
+    try {
         const requestBody = await req.json();
         const token: string = requestBody.token;
-        const playlist = await getPlaylist(token);
-        return new Response(JSON.stringify(playlist), {
-            headers: { "Content-Type": "application/json" },
-            status: 200,
-        });
+        const res = await getPlaylist(token);
+        if (Object.keys(res).length === 0) {
+            return new Response('Unauthorized', { status: 401 });
+        } else {
+            return new Response(JSON.stringify(res), {
+                headers: { "Content-Type": "application/json" },
+                status: 200,
+            });
+        }
     }
-    catch(error){
+    catch (error) {
         console.error('Error:', error);
         return new Response('Internal server error', { status: 500 });
     }
@@ -62,7 +67,10 @@ const getPlaylist = async (token: string) => {
         console.log('Updated tobipo playlist.');
         fs.writeFileSync(jsonPath, JSON.stringify(data));
         return items;
-    } catch (error) {
+    } catch (error: any) {
+        if (error.response && error.response.status === 401) {
+            return {};
+        }
         console.error('検索エラー:', error);
     }
 }

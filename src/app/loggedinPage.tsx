@@ -1,18 +1,22 @@
 import React, { use, useEffect, useState } from 'react'
-import { Button } from "@mui/material";
+
+
 import { Input } from '@mui/material';
-import searchMusic from './loggedin/searchMusic';
+import Cookies from 'js-cookie';
+
+import SpotifyColorButton from './components/SpotifyColorButton';
+
+import { CircularProgress } from '@mui/material';
 // ここに、jsonからmuiのカードコンポーネントを作成する関数を作成する
 
 function LoggedIn(props: { token: string }) {
-    const [isFetchingTobipos, setIsFetchingTobipos] = useState(true);
+    const [isFetchingTobipoPlaylist, setIsFetchingTobipoPlaylist] = useState(true);
+    const [isSearching, setIsSearching] = useState(false);
 
     const [search, setSearch] = useState("");
     const [results, setResults] = useState([]);
 
-    const [tobipoPlaylist, setTobipoPlaylist] = useState([]);
     const [tobipoIDs, setTobipoIDs] = useState([] as string[]);
-
     const [tobipoSongNames, setTobipoSongNames] = useState([] as string[]);
     const [tobipoArtists, setTobipoArtists] = useState([] as string[]);
 
@@ -71,50 +75,93 @@ function LoggedIn(props: { token: string }) {
 
     useEffect(() => {
         const fetchPlaylist = async () => {
-            // api/getTobipoPlaylistにトークンを送って、プレイリストを取得する
             const res = await fetch("api/getTobipoPlaylist", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ token: props.token })
-            })
-                .then(res => res.json())
-                .then(res => res)
-                .catch(err => console.error(err));
-
-            setTobipoPlaylist(res);
-            // ここからidを取り出す
-            extractTobipoData(res);
+            });
+            if (res.status === 401) {
+                console.log('Unauthorized token');
+                Cookies.remove('temp_token');
+                Cookies.set('error_message', '無効なトークンです', { secure: true })
+                window.location.href = '/';
+            } else if (res.status === 500) {
+                console.log('Internal server error');
+                Cookies.remove('temp_token');
+                Cookies.set('error_message', 'サーバーエラーです', { secure: true })
+                window.location.href = '/';
+            } else {
+                const data = await res.json();
+                // ここからidを取り出す
+                extractTobipoData(data);
+                setIsFetchingTobipoPlaylist(false);
+            }
         }
         fetchPlaylist();
-    }, [props.token])
+    }, [props.token]);
 
     return (
         <>
-            <div>
-                <h1>検索</h1>
-            </div>
-            <div>
-                <Input placeholder="曲名を入力" onChange={e => setSearch(e.target.value)} />
-                <br />
-                <br />
-                <Button variant="contained" color="primary"
-                    onClick={async () => {
-                        const res = await searchMusic(search, props.token);
-                        setResults(res)
-                    }
-                    }>検索</Button>
-            </div>
-            <div className='music-card-container'>
-                {results ?
-                    results.map((result: any) => {
-                        return createCard(result)
-                    }) :
-                    "検索結果はありません"}
-            </div>
+            {isFetchingTobipoPlaylist ?
+                (
+                    <div className='loading'>
+                        <CircularProgress size={100} />
+                    </div>
+                ) : <>
+                    <div>
+                        <h1>検索</h1>
+                    </div>
+                    <div>
+                        <Input placeholder="曲名を入力" onChange={e => setSearch(e.target.value)} />
+                        <br />
+                        <br />
+                        <SpotifyColorButton variant="contained" color="primary"
+                            style={isSearching ? {
+                                backgroundColor: 'gray',
+                                cursor: 'not-allowed'
+                            } : {}}
+                            disabled={isSearching}
+                            onClick={async () => {
+                                setIsSearching(true);
+                                const res = await fetch("api/searchMusic", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify({ search: search, token: props.token })
+                                });
+
+                                if (res.status === 401) {
+                                    console.log('Unauthorized token');
+                                    Cookies.remove('temp_token');
+                                    Cookies.set('error_message', '無効なトークンです', { secure: true })
+                                    window.location.href = '/';
+                                } else if (res.status === 500) {
+                                    console.log('Internal server error');
+                                    Cookies.remove('temp_token');
+                                    Cookies.set('error_message', 'サーバーエラーです', { secure: true })
+                                    window.location.href = '/';
+                                } else {
+                                    const data = await res.json();
+                                    console.log(data);
+                                    setResults(data);
+                                    setIsSearching(false);
+                                }
+                            }
+                            }>検索</SpotifyColorButton>
+                    </div>
+                    <div className='music-card-container'>
+                        {results ?
+                            results.map((result: any) => {
+                                return createCard(result)
+                            }) :
+                            "検索結果はありません"}
+                    </div>
+                </>
+            }
         </>
     )
 }
-
 export default LoggedIn
