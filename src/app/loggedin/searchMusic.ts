@@ -6,7 +6,7 @@ const searchMusic = async (search: string, token: string) => {
             params: {
                 q: search,
                 type: 'track',
-                limit: 10
+                limit: 5
             },
             headers: {
                 'Authorization': `Bearer ${token}`

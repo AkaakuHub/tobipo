@@ -1,0 +1,73 @@
+.music-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+    padding: 20px;
+}
+
+.music-card {
+    /* この中身のimgが、はみ出ないように*/
+    position: relative;
+    width: 350px;
+    height: 350px;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
+    padding: 10px;
+}
+
+.music-card img {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 50%;
+    object-fit: cover;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
+}
+
+.music-card iframe {
+    position: relative;
+    /* left: 10px; */
+    top: 100px
+}
+
+.music-card div {
+    z-index: 1;
+    position: absolute;
+    text-align: center;
+}
+
+.song_name {
+    top: 0;
+}
+
+.artist_name {
+    top: 1.5em;
+}
+
+.jacket-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.tobipo-icon {
+    width: 20px;
+    /* 文字の幅に合わせて調整 */
+    height: 20px;
+    /* 文字の高さに合わせて調整 */
+    display: inline-block;
+    /* テキストと同じ行に表示するため */
+    text-align: center;
+    /* テキストを中央揃えにするため */
+    line-height: 20px;
+    /* 文字の高さに合わせて中央揃え */
+    border-radius: 20px;
+    border: 3px solid rgb(255, 81, 0);
+    background: linear-gradient(135deg, #ffe1c0, #e56b2e);
+    padding: 10px;
+    font-size: 1.5em;
+}

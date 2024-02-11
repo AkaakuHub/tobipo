@@ -1,8 +1,8 @@
 export const authEndpoint = "https://accounts.spotify.com/authorize";
 
-const redirectUri = process.env.SPOTIFY_REDIRECT_URI;
+const redirectUri = process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI;
 
-const clientId = process.env.SPOTIFY_CLIENT_ID;
+const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
 
 // 対応する範囲を決める
 const scopes = [
@@ -26,6 +26,4 @@ export const getTokenFromUrl = () => {
 
 
 // SpotifyのログインページのURL
-export const accessUrl = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
-    "%20"
-)}&response_type=token&show_dialog=true`;
+export const accessUrl = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`;
