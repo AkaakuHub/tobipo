@@ -17,18 +17,17 @@ function App() {
     window.location.hash = "";
     const token: string = hash.access_token as string;
 
-    if (token) {
+    if (token) {// auth後
       Cookies.set('temp_token', token, { secure: true });
       setToken(token)
-      setLoading(false);
     } else {
       const token = Cookies.get('temp_token');
       if (token) {
+        Cookies.set('temp_token', token, { secure: true });
         setToken(token)
       }
-      Cookies.remove('temp_token');
-      setLoading(false);
     }
+    setLoading(false);
   }, [])
 
   return (

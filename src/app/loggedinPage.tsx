@@ -2,11 +2,11 @@ import React, { use, useEffect, useState } from 'react'
 import { Button } from "@mui/material";
 import { Input } from '@mui/material';
 import searchMusic from './loggedin/searchMusic';
-import getTobipoPlaylist from './loggedin/getTobipoPlaylist';
-
 // ここに、jsonからmuiのカードコンポーネントを作成する関数を作成する
 
 function LoggedIn(props: { token: string }) {
+    const [isFetchingTobipos, setIsFetchingTobipos] = useState(true);
+
     const [search, setSearch] = useState("");
     const [results, setResults] = useState([]);
 
@@ -16,43 +16,73 @@ function LoggedIn(props: { token: string }) {
     const [tobipoSongNames, setTobipoSongNames] = useState([] as string[]);
     const [tobipoArtists, setTobipoArtists] = useState([] as string[]);
 
+    // 右側にはみ出ている分が完全に窓に入るまではひだりにスクロールする、はいったら右にスクロールするの繰り返し
+    // const animationDuration = 
+
     const createCard = (data: any) => {
         return (
             <div className='music-card' key={data.id}
-            >
+            >{/* && tobipoArtists.includes(data.artists[0].name) */}
                 {(tobipoIDs.includes(data.id)
-                    || (tobipoSongNames.includes(data.name) && tobipoArtists.includes(data.artists[0].name))
+                    || (tobipoSongNames.includes(data.name))
                 )
                     &&
                     <div className='tobipo-icon'
                     >跳</div>}
-                {/* <div className='song_name'>{data.name}</div> */}
-                {/* <div className='artist_name'>{data.artists[0].name}</div> */}
-                {/* <div className='jacket-container'>
-                        <img src={data.album.images[0].url} alt={data.name} />
-                    </div>
-     */}
+                <div className='info-container'>
+                    <div className='song_name'// style={{ animationDuration }}
+                    >{data.name}</div>
+                    <div className='artist_name' //style={{ animationDuration }}
+                    >{data.artists[0].name}</div>
+                </div>
+
+                <div className='jacket-container'>
+                    <img src={data.album.images[0].url} alt={data.name} />
+                </div>
+
                 {/* embed builder */}
                 <iframe src={`https://open.spotify.com/embed/track/${data.id}`}
-                    width="350" height="300" frameBorder="0" allowTransparency={true}
-                    allow="encrypted-media">
+                    width="350" height="300" frameBorder="0"
+                    allow="encrypted-media"
+                    style={{ backgroundColor: 'transparent' }}
+                >
                 </iframe>
             </div>
         )
     }
 
     const extractTobipoData = (data: any) => {
-        for (let i = 0; i < data.length; i++) {
-            setTobipoIDs((prev: any) => [...prev, data[i].track.id])
-            setTobipoSongNames((prev: any) => [...prev, data[i].track.name])
-            setTobipoArtists((prev: any) => [...prev, data[i].track.artists[0].name])
-        }
-    }
+        const newTobipoData = data.map((item: any) => {
+            return {
+                id: item.track.id,
+                songName: item.track.name,
+                artist: item.track.artists[0].name
+            };
+        });
 
+        const tobipoIDsArray = newTobipoData.map((item: any) => item.id);
+        const tobipoSongNamesArray = newTobipoData.map((item: any) => item.songName);
+        const tobipoArtistsArray = newTobipoData.map((item: any) => item.artist);
+
+        setTobipoIDs(tobipoIDsArray);
+        setTobipoSongNames(tobipoSongNamesArray);
+        setTobipoArtists(tobipoArtistsArray);
+    }
 
     useEffect(() => {
         const fetchPlaylist = async () => {
-            const res = await getTobipoPlaylist(props.token);
+            // api/getTobipoPlaylistにトークンを送って、プレイリストを取得する
+            const res = await fetch("api/getTobipoPlaylist", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ token: props.token })
+            })
+                .then(res => res.json())
+                .then(res => res)
+                .catch(err => console.error(err));
+
             setTobipoPlaylist(res);
             // ここからidを取り出す
             extractTobipoData(res);

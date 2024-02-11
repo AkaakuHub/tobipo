@@ -14,60 +14,85 @@
     border-radius: 30px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
     padding: 10px;
+    z-index: 0;
 }
 
 .music-card img {
     position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50%;
-    height: 50%;
+    top: -10px;
+    left: -10px;
+    /* left: 50%;
+    transform: translateX(-50%); */
+    width: 370px;
+    height: 370px;
     object-fit: cover;
     border-radius: 30px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
+    /* 透過する */
+    opacity: 0.5;
 }
 
 .music-card iframe {
+    z-index: 2;
     position: relative;
-    /* left: 10px; */
-    top: 100px
+    top: 100px;
 }
 
 .music-card div {
-    z-index: 1;
     position: absolute;
-    text-align: center;
+}
+
+.info-container {
+    z-index: 2;
+    width: 280px;
+    height: 3em;
+    padding-bottom: 22px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0) 100%);
+    display: inline-block;
+    border-radius: 20px;
+    /* 右方向にはみ出した分は省略する */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.song_name,
+.artist_name {
+    position: relative;
+    z-index: 2;
+    left: 20px;
+    width: 300px;
+    font-weight: bold;
 }
 
 .song_name {
-    top: 0;
+    font-size: 1.3em;
+    top: 0.5em;
 }
 
 .artist_name {
-    top: 1.5em;
+    top: 2.3em;
 }
 
 .jacket-container {
+    z-index: 0;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-
 .tobipo-icon {
+    z-index: 2;
     width: 20px;
-    /* 文字の幅に合わせて調整 */
     height: 20px;
-    /* 文字の高さに合わせて調整 */
     display: inline-block;
-    /* テキストと同じ行に表示するため */
     text-align: center;
-    /* テキストを中央揃えにするため */
     line-height: 20px;
-    /* 文字の高さに合わせて中央揃え */
     border-radius: 20px;
-    border: 3px solid rgb(255, 81, 0);
+    border: 3px solid rgb(222, 70, 0);
     background: linear-gradient(135deg, #ffe1c0, #e56b2e);
+    position: relative;
+    right: 10px;
     padding: 10px;
     font-size: 1.5em;
 }
