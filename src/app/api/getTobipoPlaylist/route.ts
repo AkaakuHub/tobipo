@@ -33,6 +33,8 @@ const getPlaylist = async (token: string) => {
         const lastUpdated: Date = new Date(fileData.lastUpdated);
         const diffDays: number = Math.ceil(Math.abs(new Date().getTime() - lastUpdated.getTime()) / (1000 * 60 * 60 * 24));
 
+        // console.log(diffDays);
+
         if (diffDays <= 1) {
             console.log('Using cached tobipo playlist.');
             return fileData.items;

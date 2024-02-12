@@ -1,17 +1,16 @@
 import Cookies from 'js-cookie';
 
-
 const judgeStatus = (status: number) => {
   if (status === 401) {
     console.log('Unauthorized token');
     Cookies.remove('temp_token');
-    Cookies.set('error_message', '無効なトークンです', { secure: true })
+    Cookies.set('error_message', '無効なトークンです。もう一度ログインしてください。', { secure: true })
     window.location.href = '/';
     return false;
   } else if (status === 500) {
     console.log('Internal server error');
     Cookies.remove('temp_token');
-    Cookies.set('error_message', 'サーバーエラーです', { secure: true })
+    Cookies.set('error_message', 'サーバーエラーです。もう一度ログインしてください。', { secure: true })
     window.location.href = '/';
     return false;
   } else {
@@ -52,4 +51,15 @@ const fetch_getRandomTobipoMusic = async (numOfTracks: number) => {
   return res;
 }
 
-export { judgeStatus, fetch_getTobipoPlaylist, fetch_searchMusic, fetch_getRandomTobipoMusic };
+const fetch_searchTobipoMusicById = async (id: string) => {
+  const res = await fetch("api/searchTobipoMusicById", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ id: id })
+  });
+  return res;
+}
+
+export { judgeStatus, fetch_getTobipoPlaylist, fetch_searchMusic, fetch_getRandomTobipoMusic, fetch_searchTobipoMusicById };

@@ -34,9 +34,6 @@ function LoggedIn(props: { token: string }) {
   const [tobipoSongNames, setTobipoSongNames] = useState([] as string[]);
   const [tobipoArtists, setTobipoArtists] = useState([] as string[]);
 
-  // 右側にはみ出ている分が完全に窓に入るまではひだりにスクロールする、はいったら右にスクロールするの繰り返し
-  // const animationDuration = 
-
   const createCard = (data: any) => {
     const isTobipo: boolean = tobipoIDs.includes(data.id)
       || (tobipoSongNames.includes(data.name) && tobipoArtists.includes(data.artists[0].name));
@@ -104,10 +101,10 @@ function LoggedIn(props: { token: string }) {
   };
 
   const makeTweet = () => {
-    const this_site_url: string = process.env.NEXT_PUBLIC_THIS_SITE_URL as string;
+    //const this_site_url: string = process.env.NEXT_PUBLIC_THIS_SITE_URL as string;
     const name: string = randomTobipoInfo.name;
     const artist: string = randomTobipoInfo.artist;
-    const url: string = randomTobipoInfo.url + "\n" + this_site_url;
+    const url: string = randomTobipoInfo.url; //+ "\n" + this_site_url;
     let tweetText: string = `${name} - ${artist}を跳びポHubで発見しました！\n#跳びポHub #跳びポ\n`
     while (tweetText.length > 140) {
       tweetText = tweetText.slice(0, -1);
@@ -133,11 +130,12 @@ function LoggedIn(props: { token: string }) {
             </Button>
             <div className='search-container'
             >
-              <Input placeholder="曲名を入力"
+              <Input placeholder="曲名、アーティスト名etc..."
+                className='search-box'
                 style={{
                   color: 'white',
                   width: '300px',
-                  fontSize: '20px'
+                  fontSize: '20px',
                 }}
                 onChange={e => setSongName(e.target.value)}
                 onKeyDown={e => {

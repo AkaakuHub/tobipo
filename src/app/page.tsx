@@ -3,66 +3,62 @@
 import React, { useState, useEffect } from 'react';
 import Login from "./loginPage"
 import LoggedIn from "./loggedinPage"
+import Shared from "./sharedPage"
 import { getTokenFromUrl } from './login/Spotify';
-import Cookies from 'js-cookie';
-
-import LoadingCircleCustom1 from './components/LoadingCircleCustom1';
+// import Cookies from 'js-cookie';
+import { useSearchParams } from 'next/navigation';
+import { Share } from 'next/font/google';
 
 function App() {
   const [token, setToken] = useState("")
   const [loading, setLoading] = useState(true);
 
-  const [errorMessage, setErrorMessage] = useState("");
-  const [hasErrorMessage, setHasErrorMessage] = useState(false);
+  const searchParams = useSearchParams()
+  const id = searchParams.get("id");
+  // console.log(id);
+  // ない場合はnull
 
   useEffect(() => {
     const hash = getTokenFromUrl();
-    window.location.hash = "";
+    setTimeout(() => {
+      window.location.hash = "";
+    }, 0);
     const token: string = hash.access_token as string;
 
-    if (token) {// auth後
-      Cookies.set('temp_token', token, { secure: true });
+    if (token) {
+      // auth後
+      // Cookies.set('temp_token', token, { secure: true });
       setToken(token)
     } else {
-      const token = Cookies.get('temp_token');
-      if (token) {
-        // Cookies.set('temp_token', token, { secure: true });
-        setToken(token)
-      }
+      // const token = Cookies.get('temp_token');
+      // if (token) {
+      //   // Cookies.set('temp_token', token, { secure: true });
+      //   setToken(token)
+      // }
     }
-
-    if (Cookies.get('error_message')) {
-      setErrorMessage(Cookies.get('error_message') ?? '');
-      setHasErrorMessage(true);
-      Cookies.remove('error_message');
-    }
-
     setLoading(false);
   }, [])
 
   return (
-    <div className="App">
-      {loading ? (<div></div>) :
+    <>
+      {id !== null ?
+        <Shared id={id} /> :
         (
-          token ? (
-            <>
-              <LoggedIn token={token} />
-            </>
-          ) : (
-            <>
-              <Login />
-              <LoadingCircleCustom1 loading={loading} />
-            </>
-          )
-        )}
-      {hasErrorMessage && (
-        <div
-          style={{ color: "#fff" }}
-        >
-          {errorMessage}
-        </div>
-      )}
-    </div>
+          loading ? (<div></div >) :
+            (
+              token ? (
+                <>
+                  <LoggedIn token={token} />
+                </>
+              ) : (
+                <>
+                  <Login />
+                </>
+              )
+            )
+        )
+      }
+    </>
   );
 }
 

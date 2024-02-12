@@ -7,9 +7,38 @@ const m_plus = M_PLUS_Rounded_1c({
   subsets: ["latin"],
 });
 
+const siteName: string = "跳びポHub";
+const description: string = "すべての跳びポが、ここにある。";
+const url: string = process.env.NEXT_PUBLIC_THIS_SITE_URL || "";
+
 export const metadata: Metadata = {
-  title: "跳びポHub",
-  description: "跳びポに関するサイト",
+  metadataBase: new URL(url),
+  title: {
+    default: siteName,
+    template: `%s - ${siteName}`,
+  },
+  description,
+  openGraph: {
+    title: siteName,
+    description,
+    url,
+    siteName,
+    locale: "ja_JP",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteName,
+    description,
+    site: "@",
+    creator: "@",
+  },
+  verification: {
+    google: 'サーチコンソール',
+  },
+  alternates: {
+    canonical: url,
+  },
 };
 
 

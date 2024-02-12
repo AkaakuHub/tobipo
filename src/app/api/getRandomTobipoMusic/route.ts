@@ -41,6 +41,6 @@ const getRandomTobipoMusic = async (numOfTracks: number) => {
         return selectedItems;
     } catch (error: any) {
         console.error('検索エラー:', error);
-        return {};
+        return [];
     }
 }
