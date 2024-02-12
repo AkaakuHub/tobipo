@@ -4,10 +4,11 @@ import exp from "constants";
 
 const SpotifyColorButton = styled(Button)`
     background-color: #1fdf64;
-    color: white;
+    color: #000;
+    text-transform: none;
 
     &:hover {
-        background-color: #179645;
+        background-color: #16b54f;
     }
 `;
 

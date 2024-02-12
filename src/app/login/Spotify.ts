@@ -6,11 +6,12 @@ const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
 
 // 対応する範囲を決める
 const scopes = [
-    "user-read-currently-playing",
-    "user-read-recently-played",
-    "user-read-playback-state",
-    "user-top-read",
-    "user-modify-playback-state",
+    // "user-read-currently-playing",
+    // "user-read-recently-played",
+    // "user-read-playback-state",
+    // "user-top-read",
+    // "user-modify-playback-state",
+    ""
 ];
 
 export const getTokenFromUrl = () => {

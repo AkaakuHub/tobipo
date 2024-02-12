@@ -20,7 +20,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={m_plus.className}>{children}</body>
+      <body className={m_plus.className}
+      >
+        <div className="bodyDiv">
+          {children}
+        </div>
+      </body>
     </html>
   );
 }

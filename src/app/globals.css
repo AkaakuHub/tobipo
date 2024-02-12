@@ -1,137 +1,311 @@
+/* スクロールバー */
+html,
+body {
+  scrollbar-width: thin !important;
+}
+
+::-webkit-scrollbar {
+  width: 14px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #60120f;
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #61636c;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #8c8992;
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar-track:horizontal {
+  background-color: #213242;
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  background-color: #8c8992;
+  border-radius: 12px;
+}
+
+/* end */
+
 body,
 html {
-    height: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  z-index: 10;
+  background: #d00;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.bodyDiv {
+  background-image: url(/bgimage.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  padding-top: 20px;
+  height: calc(100vh - 20px);
+  overflow: auto;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(-250px * 7));
+  }
+}
+
+.tobipo-card-container {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+
+.tobipo-card-container > div {
+  animation: scroll 40s linear infinite;
+  display: flex;
+}
+
+/* 跳びポのリスト */
+
+
+/**
+
+ログイン前
+
+*/
+
+.LoginPage {
+  color: #fff;
+}
+
+.loadingProgress {
+  opacity: 1;
 }
 
 .loadingProgressCircle {
-    position: fixed;
-    text-align: center;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    opacity: 1;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 1;
 }
 
 .loadingProgressModal {
-    opacity: 0.5;
-    background: #ffffff;
-    position: fixed;
-    text-align: center;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+  opacity: 0.3;
+  background: #ffffff;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
 .fadeout {
-    opacity: 0;
-    transition: opacity 0.5s;
+  opacity: 0;
+  transition: opacity 0.5s;
 }
 
+.loginButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.titleContainer {
+  font-size: 2.4em;
+  font-weight: bold;
+  margin-bottom: 20px;
+  /* テキストを中央に */
+  text-align: center;
+}
+
+.descriptionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  padding: 20px;
+}
+
+.descriptionContent {
+  background-color: rgba(0, 0, 0, 0.3);
+  align-self: center;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+}
+
+.disclaimerContainer {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 0.85em;
+  text-align: center;
+}
+
+.tobipoPlaylistContainer {
+  margin-top: 60px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
 .music-card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 20px;
-    padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 40px;
+  padding: 20px;
 }
 
 .music-card {
-    /* この中身のimgが、はみ出ないように*/
-    position: relative;
-    width: 350px;
-    height: 350px;
-    border-radius: 30px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
-    padding: 10px;
-    z-index: 0;
+  /* この中身のimgが、はみ出ないように*/
+  position: relative;
+  width: 350px;
+  height: 350px;
+  border-radius: 30px;
+  background: #fff;
+  box-shadow: 0 6px 10px 0 rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  z-index: 0;
 }
 
 .music-card img {
-    position: relative;
-    top: -10px;
-    left: -10px;
-    /* left: 50%;
-    transform: translateX(-50%); */
-    width: 370px;
-    height: 370px;
-    object-fit: cover;
-    border-radius: 30px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
-    /* 透過する */
-    opacity: 0.5;
+  position: relative;
+  top: -10px;
+  left: -10px;
+  width: 370px;
+  height: 370px;
+  object-fit: cover;
+  border-radius: 30px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
+  opacity: 0.8;
 }
 
 .music-card iframe {
-    z-index: 2;
-    position: relative;
-    top: 100px;
+  z-index: 2;
+  position: relative;
+  top: 100px;
 }
 
 .music-card div {
-    position: absolute;
+  position: absolute;
 }
 
 .info-container {
-    z-index: 2;
-    width: 280px;
-    height: 3em;
-    padding-bottom: 22px;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0) 100%);
-    display: inline-block;
-    border-radius: 20px;
-    /* 右方向にはみ出した分は省略する */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  z-index: 2;
+  width: 280px;
+  height: 3em;
+  padding-bottom: 22px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
+  display: inline-block;
+  border-radius: 20px;
+  /* 右方向にはみ出した分は省略する */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .song_name,
 .artist_name {
-    position: relative;
-    z-index: 2;
-    left: 20px;
-    width: 300px;
-    font-weight: bold;
+  position: relative;
+  z-index: 2;
+  left: 20px;
+  width: 300px;
+  font-weight: bold;
 }
 
 .song_name {
-    font-size: 1.3em;
-    top: 0.5em;
+  font-size: 1.3em;
+  top: 0.5em;
 }
 
 .artist_name {
-    top: 2.3em;
+  top: 2.3em;
 }
 
 .jacket-container {
-    z-index: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .tobipo-icon {
-    z-index: 2;
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    text-align: center;
-    line-height: 20px;
-    border-radius: 20px;
-    border: 3px solid rgb(222, 70, 0);
-    background: linear-gradient(135deg, #ffe1c0, #e56b2e);
-    position: relative;
-    right: 10px;
-    padding: 10px;
-    font-size: 1.5em;
+  z-index: 2;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  text-align: center;
+  line-height: 20px;
+  border-radius: 20px;
+  border: 3px solid rgb(222, 70, 0);
+  background: linear-gradient(135deg, #ffe1c0, #e56b2e);
+  position: relative;
+  right: 10px;
+  padding: 10px 13px 10px 10px;
+  font-size: 1.5em;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8);
+}
+
+.search-container {
+  margin-top: 60px;
+  /* 中央ぞろえ */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.search-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.TwitterButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
 }

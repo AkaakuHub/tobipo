@@ -1,4 +1,4 @@
-// getTobipoPlaylist.ts
+// getTobipoPlaylist
 import { NextRequest } from "next/server";
 import axios from 'axios';
 import fs from 'fs';
@@ -25,7 +25,6 @@ export async function POST(req: NextRequest) {
 }
 
 const getPlaylist = async (token: string) => {
-    // _components/tobipoPlaylist.json
     const jsonPath = path.join(process.cwd(), 'src/app/_components/tobipoPlaylist.json');
     let data;
 
@@ -34,7 +33,7 @@ const getPlaylist = async (token: string) => {
         const lastUpdated: Date = new Date(fileData.lastUpdated);
         const diffDays: number = Math.ceil(Math.abs(new Date().getTime() - lastUpdated.getTime()) / (1000 * 60 * 60 * 24));
 
-        if (diffDays <= 10) {
+        if (diffDays <= 1) {
             console.log('Using cached tobipo playlist.');
             return fileData.items;
         }
@@ -46,14 +45,16 @@ const getPlaylist = async (token: string) => {
         const tobipoPlaylist = process.env.NEXT_PUBLIC_SPOTIFY_TOBIPO_PLAYLIST;
         let response = await axios.get(`https://api.spotify.com/v1/playlists/${tobipoPlaylist}/tracks`, {
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                'Accept-Language': 'ja'
             }
         });
         let items = response.data.items;
         while (response.data.next) {
             response = await axios.get(response.data.next, {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`,
+                    'Accept-Language': 'ja'
                 }
             });
             items = [...items, ...response.data.items];
@@ -74,6 +75,3 @@ const getPlaylist = async (token: string) => {
         console.error('検索エラー:', error);
     }
 }
-
-
-// export default getPlaylist;

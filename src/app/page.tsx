@@ -26,11 +26,10 @@ function App() {
     } else {
       const token = Cookies.get('temp_token');
       if (token) {
-        Cookies.set('temp_token', token, { secure: true });
+        // Cookies.set('temp_token', token, { secure: true });
         setToken(token)
       }
     }
-
 
     if (Cookies.get('error_message')) {
       setErrorMessage(Cookies.get('error_message') ?? '');
@@ -52,12 +51,14 @@ function App() {
           ) : (
             <>
               <Login />
-              {/* <LoadingCircleCustom1 loading={loading} /> */}
+              <LoadingCircleCustom1 loading={loading} />
             </>
           )
         )}
       {hasErrorMessage && (
-        <div>
+        <div
+          style={{ color: "#fff" }}
+        >
           {errorMessage}
         </div>
       )}
