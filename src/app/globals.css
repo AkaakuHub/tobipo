@@ -86,8 +86,7 @@ html {
 
 .LoginPage {
   color: #fff;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 10px;
 }
 
 .loadingProgress {
@@ -225,6 +224,7 @@ html {
 .howtoContent {
   align-self: center;
   padding: 15px;
+  text-align: center;
 }
 
 .tobipoPlaylistContainer {

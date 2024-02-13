@@ -78,7 +78,7 @@ function Login() {
       </div>
       <div className='disclaimerContainer fadein2'
       >
-        ※本サイトはSpotifyのデータベースを使用するためにログインが必要となります。<br />
+        ※本サイトはSpotifyのデータベースを使用するため、ログインが必要となります。<br />
         ユーザー名やログイン情報などは一切収集いたしません。
       </div>
 
