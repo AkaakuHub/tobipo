@@ -5,12 +5,12 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const makeTweet = (name: string, artist: string, id: string) => {
-  const this_site_url: string = process.env.NEXT_PUBLIC_THIS_SITE_URL as string;
+  const this_site_url: string = process.env.NEXT_PUBLIC_BASE_URL as string;
   let tweetText: string = `${name} - ${artist}を跳びポHubで発見しました！\n#跳びポHub #跳びポ\n`
   while (tweetText.length > 140) {
     tweetText = tweetText.slice(0, -1);
   }
-  const newURL: string = this_site_url + id;
+  const newURL: string = this_site_url + "/" + id;
   const tweetUrl: string = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText) + "&url=" + encodeURIComponent(newURL);
   window.open(tweetUrl, '_blank');
 }

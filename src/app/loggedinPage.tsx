@@ -92,10 +92,14 @@ function LoggedIn(props: { token: string }) {
   return (
     <>
       {(
-        <>
+        <div className='LoggedInPage'
+        >
           <div>
             <Button variant="contained" color="error"
-              style={{ marginLeft: '20px' }}
+              style={{
+                marginTop: '20px',
+                marginLeft: '20px'
+              }}
               onClick={() => {
                 sessionStorage.removeItem('temp_token');
                 window.location.href = '/';
@@ -192,12 +196,12 @@ function LoggedIn(props: { token: string }) {
                 :
                 <div style={{ color: 'white' }}
                 >
-                  検索結果はありません。
+                  見つかりませんでした...
                 </div>
               )
             }
           </div>
-        </>
+        </div>
       )
       }
       <LoadingCircleCustom1 loading={isFetchingTobipoPlaylist} />

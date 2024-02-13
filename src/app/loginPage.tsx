@@ -48,7 +48,7 @@ function Login() {
         </div>
         <div className='descriptionContent'
         >
-          「跳びポ」とは、特にアニメやアイドルの曲の中で、ジャンプしたくなるような部分のことを指す言葉で、ほとんどの場合音が一瞬だけ止まるような部分が「跳びポ」である。
+          「跳びポ」とは、おもにアニメやアイドルの曲において、ジャンプしたくなるような部分のことを指す言葉で、ほとんどの場合、音が一瞬だけ止まるような部分が「跳びポ」である。
         </div>
         <div className='descriptionContent'
         >
@@ -97,9 +97,25 @@ function Login() {
         }
       </div> */}
 
-      <div className='tobipoPlaylistContainer fadein3'
+      <div className='howtoContainer fadein3'
       >
-        <h3>参照元のプレイリスト</h3>
+        <h2>使い方</h2>
+        <div className='howtoContent'
+        >
+          1. Spotifyにログイン
+        </div>
+        <div className='howtoContent'
+        >
+          2. 検索またはランダムに選んで、お気に入りの跳びポを見つける
+        </div>
+        <div className='howtoContent'
+        >
+          3. ツイートボタンでシェア！！
+        </div>
+      </div>
+      <div className='tobipoPlaylistContainer fadein4'
+      >
+        <h2>参照元のプレイリスト</h2>
         <div className='disclaimerContainer'
         >※本サイトはプレイリスト制作者とは一切関係ありません。</div>
         <iframe src={"https://open.spotify.com/embed/playlist/1evrJkF0lPEDvUa1RlTKJt"}
@@ -107,7 +123,6 @@ function Login() {
           allow="encrypted-media">
         </iframe>
       </div>
-
     </div>
   )
 }

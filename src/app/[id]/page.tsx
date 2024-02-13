@@ -1,55 +1,27 @@
 "use client";
 
+// import { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
-import { useEffect, useState } from 'react';
-import { fetch_getTobipoPlaylist, judgeStatus } from '../libs/APIhandler';
-
-import LoadingCircleCustom1 from '../components/LoadingCircleCustom1';
-
-import extractTobipoData from '../libs/ExtractTobipoData';
+// import HomeIcon from '@mui/icons-material/Home';
 
 function Page({ params }: { params: { id: string } }) {
-  const [isFetchingTobipoPlaylist, setIsFetchingTobipoPlaylist] = useState(true);
-  const [tobipoDatawithArray, setTobipoDatawithArray] = useState([] as any[]);
-
-  const [musicInfo, setMusicInfo] = useState({ songName: "", artist: "" });
-  useEffect(() => {
-    const getTobipoPlaylistAPI = async () => {
-      const res = await fetch_getTobipoPlaylist("");
-      if (judgeStatus(res.status)) {
-        const data = await res.json();
-        // ここからidを取り出す
-        setTobipoDatawithArray(extractTobipoData(data));
-        setIsFetchingTobipoPlaylist(false);
-      }
-    }
-    getTobipoPlaylistAPI();
-  }, []);
-
-  useEffect(() => {
-    if (!isFetchingTobipoPlaylist) {
-      const [songName, artist] = searchMusicByID(params.id);
-      setMusicInfo({ songName: songName, artist: artist });
-      console.log(songName, artist);
-    }
-  }, [isFetchingTobipoPlaylist]);
-
-  const searchMusicByID = (id: string) => {
-    const index = tobipoDatawithArray.findIndex((item: any) => item.id === id);
-    return [tobipoDatawithArray[index].songName, tobipoDatawithArray[index].artist];
-  }
-
+  // const [isVerified, setIsVerified] = useState(false);
+  // useEffect(() => {
+  //   const token = sessionStorage.getItem('temp_token');
+  //   setIsVerified(!!token);
+  // }, []);
 
   return (
-    <>
+    <div>
       <Button
         variant="outlined"
         color="secondary"
         style={{
+          marginTop: '20px',
           marginLeft: '20px', color: 'white',
           border: '1px solid white',
+          fontSize: '1.2rem',
         }}
         onClick={() => {
           window.location.href = '../';
@@ -69,8 +41,7 @@ function Page({ params }: { params: { id: string } }) {
         >
         </iframe>
       </div>
-      <LoadingCircleCustom1 loading={isFetchingTobipoPlaylist} />
-    </>
+    </div>
   )
 }
 
