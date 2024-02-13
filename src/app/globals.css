@@ -241,7 +241,7 @@ html {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  gap: 40px;
+  gap: 50px;
   padding: 20px;
   margin-bottom: 60px;
 }
@@ -253,13 +253,25 @@ html {
 .music-card {
   /* この中身のimgが、はみ出ないように*/
   position: relative;
-  width: 350px;
-  height: 350px;
   border-radius: 20px;
   background: #fff;
   box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.8);
   padding: 10px;
   z-index: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .music-card {
+    width: 350px;
+    height: 350px;
+  }
+}
+/* スマホ */
+@media screen and (max-width: 768px) {
+  .music-card {
+    width: 280px;
+    height: 280px;
+  }
 }
 
 .music-card-href {
@@ -278,13 +290,26 @@ html {
   opacity: 1;
 }
 
+@media screen and (min-width: 768px) {
+  .music-card img {
+    width: 370px;
+    height: 370px;
+  }
+}
+/* スマホ */
+@media screen and (max-width: 768px) {
+  .music-card img {
+    width: 300px;
+    height: 300px;
+  }
+}
+
 .music-card div {
   position: absolute;
 }
 
 .info-container {
   z-index: 2;
-  width: 280px;
   height: 3em;
   padding-bottom: 22px;
   /* background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%); */
@@ -298,6 +323,18 @@ html {
   box-shadow: 0 6px 6px 0 rgba(255, 255, 255, 0.6);
 }
 
+@media screen and (min-width: 768px) {
+  .info-container {
+    width: 280px;
+  }
+}
+/* スマホ */
+@media screen and (max-width: 768px) {
+  .info-container {
+    width: 200px;
+  }
+}
+
 .info-container:hover {
   overflow-x: scroll;
 }
@@ -307,7 +344,6 @@ html {
   position: relative;
   z-index: 2;
   left: 20px;
-  width: 300px;
   font-weight: bold;
 }
 
