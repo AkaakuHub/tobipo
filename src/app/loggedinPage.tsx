@@ -7,15 +7,13 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 
-
-import Cookies from 'js-cookie';
-
 import SpotifyColorButton from './components/SpotifyColorButton';
 import LoadingCircleCustom1 from './components/LoadingCircleCustom1';
 
 
 import { judgeStatus, fetch_getTobipoPlaylist, fetch_searchMusic, fetch_getRandomTobipoMusic } from './libs/APIhandler';
 import makeMusicCard from './libs/MusicCard';
+import extractTobipoData from './libs/ExtractTobipoData';
 
 // ここに、jsonからmuiのカードコンポーネントを作成する関数を作成する
 
@@ -30,32 +28,22 @@ function LoggedIn(props: { token: string }) {
   const [randomTobipoResult, setRandomTobipoResult] = useState([]);
   const [randomTobipoInfo, setRandomTobipoInfo] = useState({} as any);
 
-  const [tobipoIDs, setTobipoIDs] = useState([] as string[]);
-  const [tobipoSongNames, setTobipoSongNames] = useState([] as string[]);
-  const [tobipoArtists, setTobipoArtists] = useState([] as string[]);
+  // const [tobipoIDs, setTobipoIDs] = useState([] as string[]);
+  // const [tobipoSongNames, setTobipoSongNames] = useState([] as string[]);
+  // const [tobipoArtists, setTobipoArtists] = useState([] as string[]);
+
+  const [tobipoDatawithArray, setTobipoDatawithArray] = useState([] as any[]);
+
+  const [maxMusicCount, setMaxMusicCount] = useState(50);
+  // const [tobipoMusicCount, setTobipoMusicCount] = useState(0);
 
   const createCard = (data: any) => {
-    const isTobipo: boolean = tobipoIDs.includes(data.id)
-      || (tobipoSongNames.includes(data.name) && tobipoArtists.includes(data.artists[0].name));
-    return makeMusicCard(data, isTobipo);
-  }
-
-  const extractTobipoData = (data: any) => {
-    const newTobipoData = data.map((item: any) => {
-      return {
-        id: item.track.id,
-        songName: item.track.name,
-        artist: item.track.artists[0].name
-      };
-    });
-
-    const tobipoIDsArray = newTobipoData.map((item: any) => item.id);
-    const tobipoSongNamesArray = newTobipoData.map((item: any) => item.songName);
-    const tobipoArtistsArray = newTobipoData.map((item: any) => item.artist);
-
-    setTobipoIDs(tobipoIDsArray);
-    setTobipoSongNames(tobipoSongNamesArray);
-    setTobipoArtists(tobipoArtistsArray);
+    const isTobipo: boolean = tobipoDatawithArray.some((item: any) => item.id === data.id)
+      || (tobipoDatawithArray.some((item: any) => item.songName === data.name) && tobipoDatawithArray.some((item: any) => item.artist === data.artists[0].name));
+    // 跳びポだけ表示に変更
+    if (isTobipo) {
+      return makeMusicCard(data, isTobipo);
+    }
   }
 
   useEffect(() => {
@@ -64,7 +52,8 @@ function LoggedIn(props: { token: string }) {
       if (judgeStatus(res.status)) {
         const data = await res.json();
         // ここからidを取り出す
-        extractTobipoData(data);
+        setTobipoDatawithArray(extractTobipoData(data));
+
         setIsFetchingTobipoPlaylist(false);
       }
     }
@@ -73,7 +62,7 @@ function LoggedIn(props: { token: string }) {
 
   const searchMusicAPI = async () => {
     setIsSearching(true);
-    const res = await fetch_searchMusic(songName, props.token);
+    const res = await fetch_searchMusic(songName, props.token, maxMusicCount);
     if (judgeStatus(res.status)) {
       const data = await res.json();
       setSearchResults(data);
@@ -108,7 +97,7 @@ function LoggedIn(props: { token: string }) {
             <Button variant="contained" color="error"
               style={{ marginLeft: '20px' }}
               onClick={() => {
-                Cookies.remove('temp_token');
+                sessionStorage.removeItem('temp_token');
                 window.location.href = '/';
               }}
             >
@@ -133,6 +122,24 @@ function LoggedIn(props: { token: string }) {
                 }
               />
             </div>
+
+            {/* 実装予定なし */}
+            {/* <div className='set-maxMusicCount-container'>
+              <Input
+                type='number'
+                value={maxMusicCount}
+                className='search-box'
+                style={{
+                  color: 'white',
+                  width: '100px',
+                  fontSize: '20px',
+                  marginLeft: '20px'
+                }}
+                onChange={e => setMaxMusicCount(parseInt(e.target.value))
+                }
+              />
+            </div> */}
+
             <div className='search-button-container'
             >
               <SpotifyColorButton variant="contained" color="primary"
@@ -143,6 +150,7 @@ function LoggedIn(props: { token: string }) {
                 disabled={isSearching}
                 onClick={() => {
                   if (songName !== "") {
+                    // setTobipoMusicCount(0);
                     searchMusicAPI();
                   } else {
                     setSearchResults([]);
@@ -176,9 +184,12 @@ function LoggedIn(props: { token: string }) {
               </div>
               :
               (Object.keys(searchResult).length > 0 ?
-                searchResult.map((result: any) => {
-                  return createCard(result);
-                }) :
+                <>
+                  {searchResult.map((result: any) => {
+                    return createCard(result);
+                  })}
+                </>
+                :
                 <div style={{ color: 'white' }}
                 >
                   検索結果はありません。

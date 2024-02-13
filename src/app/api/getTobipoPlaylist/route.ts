@@ -34,8 +34,8 @@ const getPlaylist = async (token: string) => {
         const diffDays: number = Math.ceil(Math.abs(new Date().getTime() - lastUpdated.getTime()) / (1000 * 60 * 60 * 24));
 
         // console.log(diffDays);
-
-        if (diffDays <= 1) {
+        // 1日以上経っていたら更新または、tokenがない場合もキャッシュを返す
+        if (diffDays <= 1 || token === "") {
             console.log('Using cached tobipo playlist.');
             return fileData.items;
         }

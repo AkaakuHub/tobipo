@@ -29,13 +29,13 @@ const fetch_getTobipoPlaylist = async (token: string) => {
   return res;
 }
 
-const fetch_searchMusic = async (songName: string, token: string) => {
+const fetch_searchMusic = async (songName: string, token: string, maxMusicCount: number) => {
   const res = await fetch("api/searchMusic", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ search: songName, token: token })
+    body: JSON.stringify({ search: songName, token: token, maxMusicCount: maxMusicCount })
   });
   return res;
 }

@@ -5,10 +5,9 @@ import Login from "./loginPage"
 import LoggedIn from "./loggedinPage"
 
 import { getTokenFromUrl } from './login/Spotify';
-import Cookies from 'js-cookie';
 
 function App() {
-  const [token, setToken] = useState("")
+  const [token, setToken] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,13 +19,12 @@ function App() {
 
     if (token) {
       // auth後
-      Cookies.set('temp_token', token, { secure: true });
-      setToken(token)
+      sessionStorage.setItem('temp_token', token);
+      setToken(token);
     } else {
-      const token = Cookies.get('temp_token');
+      const token = sessionStorage.getItem('temp_token');
       if (token) {
-        Cookies.set('temp_token', token, { secure: true });
-        setToken(token)
+        setToken(token);
       }
     }
     setLoading(false);

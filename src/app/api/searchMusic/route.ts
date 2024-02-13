@@ -7,7 +7,8 @@ export async function POST(req: NextRequest) {
         const requestBody = await req.json();
         const token: string = requestBody.token;
         const song_name: string = requestBody.search;
-        const res = await searchMusic(song_name, token);
+        const maxMusicCount: number = requestBody.maxMusicCount;
+        const res = await searchMusic(song_name, token, maxMusicCount);
         // console.log(res);
         if (Object.keys(res).length === 0) {
             return new Response('Unauthorized', { status: 401 });
@@ -24,13 +25,13 @@ export async function POST(req: NextRequest) {
     }
 }
 
-const searchMusic = async (search: string, token: string) => {
+const searchMusic = async (search: string, token: string, maxMusicCount: number) => {
     try {
         const response = await axios.get('https://api.spotify.com/v1/search', {
             params: {
                 q: search,
                 type: 'track',
-                limit: 50
+                limit: maxMusicCount
             },
             headers: {
                 'Authorization': `Bearer ${token}`,
