@@ -6,7 +6,7 @@ import { Button } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
-import TwitterIcon from '@mui/icons-material/Twitter';
+
 
 import Cookies from 'js-cookie';
 
@@ -100,19 +100,6 @@ function LoggedIn(props: { token: string }) {
     }
   };
 
-  const makeTweet = () => {
-    //const this_site_url: string = process.env.NEXT_PUBLIC_THIS_SITE_URL as string;
-    const name: string = randomTobipoInfo.name;
-    const artist: string = randomTobipoInfo.artist;
-    const url: string = randomTobipoInfo.url; //+ "\n" + this_site_url;
-    let tweetText: string = `${name} - ${artist}を跳びポHubで発見しました！\n#跳びポHub #跳びポ\n`
-    while (tweetText.length > 140) {
-      tweetText = tweetText.slice(0, -1);
-    }
-    const tweetUrl: string = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText) + "&url=" + encodeURIComponent(url);
-    window.open(tweetUrl, '_blank');
-  }
-
   return (
     <>
       {(
@@ -187,16 +174,6 @@ function LoggedIn(props: { token: string }) {
                     return createCard(result);
                   })
                 }
-                <div className='TwitterButtonContainer'
-                >
-                  <TwitterIcon style={{
-                    color: 'white',
-                    fontSize: '60px',
-                    cursor: 'pointer'
-                  }}
-                    onClick={() => makeTweet()}
-                  />
-                </div>
               </div>
               :
               (Object.keys(searchResult).length > 0 ?

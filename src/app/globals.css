@@ -240,7 +240,7 @@ html {
   z-index: 0;
 }
 
-.music-card-href{
+.music-card-href {
   text-decoration: none;
   color: inherit;
 }
@@ -264,24 +264,6 @@ html {
 
 .music-card div {
   position: absolute;
-}
-
-.demo-play-container{
-  z-index: 2;
-  width: 60px;
-  height: 60px;
-  display: inline-block;
-  text-align: center;
-  position: relative;
-  right: 10px;
-  bottom: 10px;
-  background: rgb(255, 255, 255);
-  border-radius: 100%;
-  box-shadow: 0 0 5px 3px rgba(255, 255, 255, 0.6);
-}
-
-.demo-play-container{
-  cursor: help;
 }
 
 .info-container {
@@ -375,9 +357,59 @@ html {
   margin-bottom: 20px;
 }
 
+.demo-play-container {
+  z-index: 2;
+  width: 60px;
+  height: 60px;
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  right: 10px;
+  bottom: 10px;
+}
+
+.demo-play-button {
+  cursor: pointer;
+}
+
+.demo-play-button:hover {
+  color: #8b8b8b;
+}
+
+.progress-container {
+  z-index: 1;
+  width: 60px;
+  height: 60px;
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  right: 10px;
+  bottom: 10px;
+  background: rgb(255, 255, 255);
+  border-radius: 100%;
+  box-shadow: 0 0 10px 6px rgba(255, 255, 255, 0.6);
+}
+
 .TwitterButtonContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 60px;
+  width: 60px;
+  height: 60px;
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  left: 10px;
+  bottom: 10px;
+}
+
+.TwitterButton {
+  padding: 5px;
+  z-index: 2;
+  color: #fff;
+  background-color: #1da1f2;
+  border-radius: 100%;
+  box-shadow: 0 0 5px 4px rgb(29, 161, 242, 0.6);
+}
+
+.TwitterButton:hover {
+  filter: brightness(1.2);
+
 }
