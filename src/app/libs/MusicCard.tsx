@@ -4,13 +4,14 @@ import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import CircularProgress from '@mui/material/CircularProgress';
 
-const makeTweet = (name: string, artist: string, url: string) => {
-  //const this_site_url: string = process.env.NEXT_PUBLIC_THIS_SITE_URL as string;
+const makeTweet = (name: string, artist: string, id: string) => {
+  const this_site_url: string = process.env.NEXT_PUBLIC_THIS_SITE_URL as string;
   let tweetText: string = `${name} - ${artist}を跳びポHubで発見しました！\n#跳びポHub #跳びポ\n`
   while (tweetText.length > 140) {
     tweetText = tweetText.slice(0, -1);
   }
-  const tweetUrl: string = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText) + "&url=" + encodeURIComponent(url);
+  const newURL: string = this_site_url + id;
+  const tweetUrl: string = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText) + "&url=" + encodeURIComponent(newURL);
   window.open(tweetUrl, '_blank');
 }
 
@@ -82,9 +83,10 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ src }) => {
       <div className='progress-container'
       >
         <CircularProgress
+          style={{ color: '#1fdf64' }}
           size={60}
           thickness={5}
-          variant="determinate" value={progress} />
+          variant="determinate" value={100 - progress} />
       </div>
     </>
 
@@ -98,40 +100,38 @@ const makeMusicCard = (data: any, isTobipo: boolean) => {
       {isTobipo ? 'music-card tobipo-frame' : 'music-card'}
       key={data.id}
     >
+
+      {isTobipo
+        &&
+        <div className='tobipo-icon'
+        >跳</div>}
+      <div className='info-container'>
+        <div className='song_name'
+        >{data.name}</div>
+        <div className='artist_name'
+        >{data.artists[0].name}</div>
+      </div>
       <a className="music-card-href"
-        href={data.external_urls.spotify} target="_blank">
-        {isTobipo
-          &&
-          <div className='tobipo-icon'
-          >跳</div>}
-        <div className='info-container'>
-          <div className='song_name'
-          >{data.name}</div>
-          <div className='artist_name'
-          >{data.artists[0].name}</div>
-        </div>
+        href={`./${data.id}`}
+      >
         <div className='jacket-container'>
           <img src={data.album.images[0].url} alt={data.name} />
         </div>
-        {/* 重いからなしで */}
-        {/* <iframe src={`https://open.spotify.com/embed/track/${data.id}`}
-        width="350" height="300" frameBorder="0"
-        allow="encrypted-media"
-        style={{ backgroundColor: 'transparent' }}
-      >
-      </iframe> */}
       </a>
       <AudioPlayer src={data.preview_url} />
-      <div className='TwitterButtonContainer'
-      >
-        <TwitterIcon style={{
-          fontSize: '50px',
-          cursor: 'pointer'
-        }}
-          className='TwitterButton'
-          onClick={() => makeTweet(data.name, data.artists[0].name, data.external_urls.spotify)}
-        />
-      </div>
+      {isTobipo &&
+        <div className='TwitterButtonContainer'
+        >
+          <TwitterIcon style={{
+            fontSize: '44px',
+            cursor: 'pointer'
+          }}
+            className='TwitterButton'
+            onClick={() => makeTweet(data.name, data.artists[0].name, data.id)}
+          />
+        </div>
+      }
+
     </div>
   )
 }

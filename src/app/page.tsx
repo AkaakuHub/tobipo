@@ -3,20 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import Login from "./loginPage"
 import LoggedIn from "./loggedinPage"
-import Shared from "./sharedPage"
+
 import { getTokenFromUrl } from './login/Spotify';
-// import Cookies from 'js-cookie';
-import { useSearchParams } from 'next/navigation';
-import { Share } from 'next/font/google';
+import Cookies from 'js-cookie';
 
 function App() {
   const [token, setToken] = useState("")
   const [loading, setLoading] = useState(true);
-
-  const searchParams = useSearchParams()
-  const id = searchParams.get("id");
-  // console.log(id);
-  // ない場合はnull
 
   useEffect(() => {
     const hash = getTokenFromUrl();
@@ -27,37 +20,33 @@ function App() {
 
     if (token) {
       // auth後
-      // Cookies.set('temp_token', token, { secure: true });
+      Cookies.set('temp_token', token, { secure: true });
       setToken(token)
     } else {
-      // const token = Cookies.get('temp_token');
-      // if (token) {
-      //   // Cookies.set('temp_token', token, { secure: true });
-      //   setToken(token)
-      // }
+      const token = Cookies.get('temp_token');
+      if (token) {
+        Cookies.set('temp_token', token, { secure: true });
+        setToken(token)
+      }
     }
     setLoading(false);
   }, [])
 
   return (
-    <>
-      {id !== null ?
-        <Shared id={id} /> :
+    <>{
+      loading ? (<div></div >) :
         (
-          loading ? (<div></div >) :
-            (
-              token ? (
-                <>
-                  <LoggedIn token={token} />
-                </>
-              ) : (
-                <>
-                  <Login />
-                </>
-              )
-            )
+          token ? (
+            <>
+              <LoggedIn token={token} />
+            </>
+          ) : (
+            <>
+              <Login />
+            </>
+          )
         )
-      }
+    }
     </>
   );
 }

@@ -153,7 +153,6 @@ function LoggedIn(props: { token: string }) {
                 <SearchIcon />
                 検索
               </SpotifyColorButton>
-
               <Button variant="contained" color="info"
                 style={{ marginLeft: '20px' }}
                 onClick={() => {

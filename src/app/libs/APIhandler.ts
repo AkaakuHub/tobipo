@@ -51,15 +51,4 @@ const fetch_getRandomTobipoMusic = async (numOfTracks: number) => {
   return res;
 }
 
-const fetch_searchTobipoMusicById = async (id: string) => {
-  const res = await fetch("api/searchTobipoMusicById", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ id: id })
-  });
-  return res;
-}
-
-export { judgeStatus, fetch_getTobipoPlaylist, fetch_searchMusic, fetch_getRandomTobipoMusic, fetch_searchTobipoMusicById };
+export { judgeStatus, fetch_getTobipoPlaylist, fetch_searchMusic, fetch_getRandomTobipoMusic };
