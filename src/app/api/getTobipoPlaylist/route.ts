@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     const requestBody = await req.json();
     const token: string = requestBody.token;
     const res = await getPlaylist(token);
-    if (Object.keys(res).length === 0) {
+    if (res && Object.keys(res).length === 0) {
       return new Response('Unauthorized', { status: 401 });
     } else {
       return new Response(JSON.stringify(res), {

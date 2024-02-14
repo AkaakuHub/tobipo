@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     const requestBody = await req.json();
     const id: string = requestBody.id;
     const res = await makeMetadataById(id);
-    if (Object.keys(res).length === 0) {
+    if (res && Object.keys(res).length === 0) {
       return new Response('Unauthorized', { status: 401 });
     } else {
       return new Response(JSON.stringify(res), {

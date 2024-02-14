@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
         const maxMusicCount: number = requestBody.maxMusicCount;
         const res = await searchMusic(song_name, token, maxMusicCount);
         // console.log(res);
-        if (Object.keys(res).length === 0) {
+        if (res && Object.keys(res).length === 0) {
             return new Response('Unauthorized', { status: 401 });
         } else {
             return new Response(JSON.stringify(res), {
