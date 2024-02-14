@@ -35,6 +35,7 @@ const makeMetadataById = async (id: string) => {
       const data = fileData.items;
       const extractedData = extractTobipoData(data);
       const index = extractedData.findIndex((item: any) => item.id === id);
+      // id
       if (index !== -1) {
         const target = extractedData[index];
         return {
@@ -44,17 +45,19 @@ const makeMetadataById = async (id: string) => {
         };
       }
     }
+    const baseURL: string = process.env.NEXT_PUBLIC_BASE_URL || "";
     return {
       songName: "Not found",
       artist: "Not found",
-      image640: "",
+      image640: `${baseURL}/ogp_default.png`,
     };
   } catch (error: any) {
     console.error('検索エラー:', error);
+    const baseURL: string = process.env.NEXT_PUBLIC_BASE_URL || "";
     return {
-      songName: "Not found",
-      artist: "Not found",
-      image640: "",
+      songName: "Error",
+      artist: "Error",
+      image640: `${baseURL}/ogp_default.png`,
     };
   }
 }

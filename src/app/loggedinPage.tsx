@@ -38,8 +38,8 @@ function LoggedIn(props: { token: string }) {
   // const [tobipoMusicCount, setTobipoMusicCount] = useState(0);
 
   const createCard = (data: any) => {
-    const isTobipo: boolean = tobipoDatawithArray.some((item: any) => item.id === data.id)
-      || (tobipoDatawithArray.some((item: any) => item.songName === data.name) && tobipoDatawithArray.some((item: any) => item.artist === data.artists[0].name));
+    const isTobipo: boolean = tobipoDatawithArray.some((item: any) => item.id === data.id);
+      // || (tobipoDatawithArray.some((item: any) => item.songName === data.name) && tobipoDatawithArray.some((item: any) => item.artist === data.artists[0].name));
     // 跳びポだけ表示に変更
     if (isTobipo) {
       return makeMusicCard(data, isTobipo);
