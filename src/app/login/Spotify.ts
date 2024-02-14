@@ -3,6 +3,7 @@ export const authEndpoint = "https://accounts.spotify.com/authorize";
 const redirectUri = process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI;
 
 const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
+const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
 
 // 対応する範囲を決める
 const scopes = [

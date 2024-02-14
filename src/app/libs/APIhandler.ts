@@ -18,6 +18,16 @@ const judgeStatus = (status: number) => {
   }
 }
 
+const fetch_doClientCredentials = async () => {
+  const res = await fetch("api/doClientCredentials", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+  return res;
+}
+
 const fetch_getTobipoPlaylist = async (token: string) => {
   const res = await fetch("api/getTobipoPlaylist", {
     method: "POST",
@@ -64,4 +74,4 @@ const fetch_metadata = async (id: string) => {
   return res;
 }
 
-export { judgeStatus, fetch_getTobipoPlaylist, fetch_searchMusic, fetch_getRandomTobipoMusic, fetch_metadata };
+export { fetch_doClientCredentials, judgeStatus, fetch_getTobipoPlaylist, fetch_searchMusic, fetch_getRandomTobipoMusic, fetch_metadata };

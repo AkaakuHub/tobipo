@@ -2,37 +2,57 @@ import React, { useEffect, useState } from 'react'
 
 import { accessUrl } from "./login/Spotify";
 import Cookies from 'js-cookie';
-import LoginIcon from '@mui/icons-material/Login';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import SpotifyColorButton from "./components/SpotifyColorButton";
 // import LoadingCircleCustom1 from './components/LoadingCircleCustom1';
 
-import { judgeStatus, fetch_getRandomTobipoMusic } from './libs/APIhandler';
+import { judgeStatus, fetch_doClientCredentials } from './libs/APIhandler';
 // import makeMusicCard from './libs/MusicCard';
 
 function Login() {
-  const [randomTobipoResult, setRandomTobipoResult] = useState([]);
+  // const [randomTobipoResult, setRandomTobipoResult] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
 
   // const createCard = (data: any) => {
   //   return makeMusicCard(data, true);
   // }
 
-  useEffect(() => {
-    const getRandomTobipoMusicAPI = async () => {
-      const res = await fetch_getRandomTobipoMusic(10);
-      if (judgeStatus(res.status)) {
-        const json = await res.json();
-        setRandomTobipoResult(json);
-      }
-    }
-    getRandomTobipoMusicAPI();
-  }, []);
+  // useEffect(() => {
+  //   const getRandomTobipoMusicAPI = async () => {
+  //     const res = await fetch_getRandomTobipoMusic(10);
+  //     if (judgeStatus(res.status)) {
+  //       const json = await res.json();
+  //       setRandomTobipoResult(json);
+  //     }
+  //   }
+  //   getRandomTobipoMusicAPI();
+  // }, []);
 
   if (Cookies.get('error_message')) {
     setErrorMessage(Cookies.get('error_message') ?? '');
     Cookies.remove('error_message');
   }
+
+  const doClientCredentialsAPI = async () => {
+    const res = await fetch_doClientCredentials();
+    if (judgeStatus(res.status)) {
+      const json = await res.json();
+      try {
+        const token = json.access_token;
+        sessionStorage.setItem('temp_token', token);
+      }
+      catch (error) {
+        console.error('Error:', error);
+        setErrorMessage("Internal server error");
+      }
+      // reload
+      window
+        .location
+        .reload();
+    }
+  }
+
 
   return (
     <div className="LoginPage">
@@ -70,17 +90,27 @@ function Login() {
       </div>
       <div className='loginButtonContainer fadein2'>
         <SpotifyColorButton
-          href={accessUrl}
+          style={{
+            fontSize: '20px',
+            padding: '8px 24px',
+          }}
+          onClick={() => {
+            doClientCredentialsAPI();
+          }
+          }
         >
-          <LoginIcon />
-          Spotifyにログインしてはじめる
+          今すぐ見つける
+          <ArrowForwardIcon />
         </SpotifyColorButton>
       </div>
-      <div className='disclaimerContainer fadein2'
+      {
+        /* ログインを不要にした */
+      }
+      {/* <div className='disclaimerContainer fadein2'
       >
         ※本サイトはSpotifyのデータベースを使用するため、ログインが必要となります。<br />
         ユーザー名やログイン情報などは一切収集いたしません。
-      </div>
+      </div> */}
 
       {/* やりたかったけど重すぎるのでボツ */}
       {/* <div className='tobipo-card-container'>
@@ -100,17 +130,17 @@ function Login() {
       <div className='howtoContainer fadein3'
       >
         <h2>使い方</h2>
-        <div className='howtoContent'
+        {/* <div className='howtoContent'
         >
           1. Spotifyにログイン
+        </div> */}
+        <div className='howtoContent'
+        >
+          1. 検索またはランダムに選んで、お気に入りの跳びポを見つける
         </div>
         <div className='howtoContent'
         >
-          2. 検索またはランダムに選んで、お気に入りの跳びポを見つける
-        </div>
-        <div className='howtoContent'
-        >
-          3. ツイートボタンでシェア！！
+          2. ツイートボタンでシェア！！
         </div>
       </div>
       <div className='tobipoPlaylistContainer fadein4'

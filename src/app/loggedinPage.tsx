@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 import { Input } from '@mui/material';
 import { Button } from '@mui/material';
-import LogoutIcon from '@mui/icons-material/Logout';
+import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 
@@ -105,8 +105,8 @@ function LoggedIn(props: { token: string }) {
                 window.location.href = '/';
               }}
             >
-              <LogoutIcon />
-              ログアウト
+              <HomeIcon />
+              ホームに戻る
             </Button>
             <div className='search-container'
             >
