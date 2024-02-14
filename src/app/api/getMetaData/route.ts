@@ -7,8 +7,6 @@ function kvKey(name: string) {
   return `${name}-key`;
 }
 
-import extractTobipoData from '../../libs/ExtractTobipoData';
-
 export async function POST(req: NextRequest) {
   try {
     const requestBody = await req.json();
@@ -34,15 +32,13 @@ const makeMetadataById = async (id: string) => {
     const dataFromKV = await kv.json.get(kvKey("tobipoPlaylist"), "$");
     const fileData = dataFromKV[0];
     const data = fileData.items;
-    const extractedData = extractTobipoData(data);
-    const index = extractedData.findIndex((item: any) => item.id === id);
-    // id
+    const index = data.findIndex((item: any) => item.id === id);
     if (index !== -1) {
-      const target = extractedData[index];
+      const target = data[index];
       return {
         songName: target.songName,
         artist: target.artist,
-        image640: target.image640,
+        image640_url: target.image640_url,
       };
 
     }
@@ -50,7 +46,7 @@ const makeMetadataById = async (id: string) => {
     return {
       songName: "Not found",
       artist: "Not found",
-      image640: `${baseURL}/ogp_default.png`,
+      image640_url: `${baseURL}/ogp_default.png`,
     };
   } catch (error: any) {
     console.error('検索エラー:', error);
@@ -58,7 +54,7 @@ const makeMetadataById = async (id: string) => {
     return {
       songName: "Error",
       artist: "Error",
-      image640: `${baseURL}/ogp_default.png`,
+      image640_url: `${baseURL}/ogp_default.png`,
     };
   }
 }

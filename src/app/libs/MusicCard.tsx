@@ -28,12 +28,6 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ src }) => {
   const [remainingTime, setRemainingTime] = useState(maxTime);
   const [baseTime, setBaseTime] = useState(Date.now());
 
-  // 1000msごとに残り時間を更新
-  // もしisPlayingがtrueなら、残り時間を減らす
-  // isPlayingがfalseなら、残り時間をそのままにする
-  // これが0になったら、isPlayingをfalseにして、remainingTimeを30000に戻す
-  // isPlayingがtrueのときに、ボタンを押されたら、isPlayingをfalseにして、一時停止する
-  // また、一時停止のタイミングも考慮して、マイクロsでの引き算も考える
   useEffect(() => {
     const interval = setInterval(() => {
       if (isPlaying) {
@@ -107,16 +101,16 @@ const makeMusicCard = (data: any, isTobipo: boolean) => {
         >跳</div>}
       <div className='info-container'>
         <div className='song_name'
-        >{data.name}</div>
+        >{data.songName}</div>
         <div className='artist_name'
-        >{data.artists[0].name}</div>
+        >{data.artist}</div>
       </div>
       <a className="music-card-href"
-        href={isTobipo ? `./${data.id}` : data.external_urls.spotify}
+        href={isTobipo ? `./${data.id}` : data.external_urls_spotify}
         target={isTobipo ? "_self" : "_blank"}
       >
         <div className='jacket-container'>
-          <img src={data.album.images[0].url} alt={data.name} />
+          <img src={data.image640_url} alt={data.name} />
         </div>
       </a>
       <AudioPlayer src={data.preview_url} />
@@ -128,7 +122,7 @@ const makeMusicCard = (data: any, isTobipo: boolean) => {
             cursor: 'pointer'
           }}
             className='TwitterButton'
-            onClick={() => makeTweet(data.name, data.artists[0].name, data.id)}
+            onClick={() => makeTweet(data.songName, data.artist, data.id)}
           />
         </div>
       }

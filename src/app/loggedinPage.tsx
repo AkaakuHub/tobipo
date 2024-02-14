@@ -17,7 +17,6 @@ import LoadingCircleCustom1 from './components/LoadingCircleCustom1';
 
 import { judgeStatus, fetch_getTobipoPlaylist, fetch_searchMusic, fetch_getRandomTobipoMusic } from './libs/APIhandler';
 import makeMusicCard from './libs/MusicCard';
-import extractTobipoData from './libs/ExtractTobipoData';
 
 // ここに、jsonからmuiのカードコンポーネントを作成する関数を作成する
 
@@ -30,7 +29,7 @@ function LoggedIn(props: { token: string }) {
 
   // const [isRandomTobipoMode, setIsRandomTobipoMode] = useState(false);
   const [randomTobipoResult, setRandomTobipoResult] = useState([]);
-  const [randomTobipoInfo, setRandomTobipoInfo] = useState({} as any);
+  // const [randomTobipoInfo, setRandomTobipoInfo] = useState({} as any);
 
   // const [tobipoIDs, setTobipoIDs] = useState([] as string[]);
   // const [tobipoSongNames, setTobipoSongNames] = useState([] as string[]);
@@ -44,6 +43,7 @@ function LoggedIn(props: { token: string }) {
   const [showNonTobipo, setShowNonTobipo] = useState(false);
 
   const createCard = (data: any) => {
+    // console.log(data);
     const isTobipo: boolean = tobipoDatawithArray.some((item: any) => item.id === data.id);
     // || (tobipoDatawithArray.some((item: any) => item.songName === data.name) && tobipoDatawithArray.some((item: any) => item.artist === data.artists[0].name));
     // 跳びポだけ表示に変更
@@ -63,9 +63,7 @@ function LoggedIn(props: { token: string }) {
       const res = await fetch_getTobipoPlaylist(props.token);
       if (judgeStatus(res.status)) {
         const data = await res.json();
-        // ここからidを取り出す
-        setTobipoDatawithArray(extractTobipoData(data));
-
+        setTobipoDatawithArray(data);
         setIsFetchingTobipoPlaylist(false);
       }
     }
@@ -82,7 +80,7 @@ function LoggedIn(props: { token: string }) {
       setIsSearching(false);
 
       setRandomTobipoResult([]);
-      setRandomTobipoInfo({});
+      // setRandomTobipoInfo({});
     }
   };
 
@@ -91,13 +89,6 @@ function LoggedIn(props: { token: string }) {
     if (judgeStatus(res.status)) {
       const data = await res.json();
       setRandomTobipoResult(data);
-
-      const newInfo = {
-        name: data[0].name,
-        artist: data[0].artists[0].name,
-        url: data[0].external_urls.spotify
-      }
-      setRandomTobipoInfo(newInfo);
     }
   };
 

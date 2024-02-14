@@ -7,6 +7,8 @@ function kvKey(name: string) {
   return `${name}-key`;
 }
 
+import extractTobipoData from '../../libs/ExtractTobipoData';
+
 export async function POST(req: NextRequest) {
   try {
     const requestBody = await req.json();
@@ -64,19 +66,23 @@ const getPlaylist = async (token: string) => {
       });
       items = [...items, ...response.data.items];
     }
-    data = {
-      lastUpdated: new Date(),
-      items
-    };
     console.log('Updated tobipo playlist.');
 
+    // そのままだと不要な情報が多いので、あらかじめ必要な情報だけを抽出
+    const extractedItems = extractTobipoData(items, "playlist");
+    const newData = {
+      lastUpdated: new Date(),
+      items: extractedItems
+    };
     // KVに保存
-    await kv.json.set(kvKey("tobipoPlaylist"), "$", data);
-    return items;
+    await kv.json.set(kvKey("tobipoPlaylist"), "$", newData);
+    return extractedItems;
   } catch (error: any) {
     if (error.response && error.response.status === 401) {
       return {};
     }
     console.error('検索エラー:', error);
+    // これでは長すぎるため、先頭の500文字だけ表示
+    // console.error('検索エラー:', error.toString().substring(0, 500));
   }
 }

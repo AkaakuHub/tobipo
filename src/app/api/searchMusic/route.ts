@@ -2,6 +2,8 @@
 import { NextRequest } from "next/server";
 import axios from 'axios';
 
+import extractTobipoData from '../../libs/ExtractTobipoData';
+
 export async function POST(req: NextRequest) {
     try {
         const requestBody = await req.json();
@@ -38,11 +40,15 @@ const searchMusic = async (search: string, token: string, maxMusicCount: number)
                 'Accept-Language': 'ja'
             }
         });
-        return response.data.tracks.items;
+        const data = response.data.tracks.items;
+        const extractedItem = extractTobipoData(data, "search");
+        return extractedItem;
     } catch (error: any) {
         if (error.response && error.response.status === 401) {
             return {};
         }
         console.error('検索エラー:', error);
+        // はじめの500文字だけ表示
+        // console.error('検索エラー:', error.message.substring(0, 500));
     }
 }

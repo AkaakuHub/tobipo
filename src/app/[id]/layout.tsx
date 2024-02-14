@@ -29,7 +29,7 @@ export const generateMetadata = async ({ params }: { params: { id: string } }): 
       type: "website",
       images: [
         {
-          url: data.image640,
+          url: data.image640_url,
           width: 1200,
           height: 630,
           alt: "OGP画像の代替テキスト - 該当する曲のアルバムアートワーク",
@@ -42,7 +42,7 @@ export const generateMetadata = async ({ params }: { params: { id: string } }): 
       description,
       images: [
         {
-          url: data.image640,
+          url: data.image640_url,
           width: 1200,
           height: 630,
           alt: "OGP画像の代替テキスト - 該当する曲のアルバムアートワーク",

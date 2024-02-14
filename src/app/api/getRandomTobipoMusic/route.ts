@@ -40,7 +40,7 @@ const getRandomTobipoMusic = async (numOfTracks: number) => {
         while (randomNums.size < numOfTracks) {
             randomNums.add(Math.floor(Math.random() * itemsLength));
         }
-        const selectedItems = Array.from(randomNums).map((num) => items[num].track);
+        const selectedItems = Array.from(randomNums).map((num) => items[num]);
         return selectedItems;
     } catch (error: any) {
         console.error('検索エラー:', error);

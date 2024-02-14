@@ -1,7 +1,6 @@
 /* スクロールバー */
 html,
 body {
-  scrollbar-width: thin !important;
   font-family: var(--m-plus-rounded-1c);
   background-image: url(/bgimage.png);
   background-size: cover;
