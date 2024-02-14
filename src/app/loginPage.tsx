@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import Cookies from 'js-cookie';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-
 import SpotifyColorButton from "./components/SpotifyColorButton";
 // import LoadingCircleCustom1 from './components/LoadingCircleCustom1';
 
@@ -28,9 +26,9 @@ function Login() {
   //   getRandomTobipoMusicAPI();
   // }, []);
 
-  if (Cookies.get('error_message')) {
-    setErrorMessage(Cookies.get('error_message') ?? '');
-    Cookies.remove('error_message');
+  if (sessionStorage.getItem('error_message')) {
+    setErrorMessage(sessionStorage.getItem('error_message') as string);
+    sessionStorage.removeItem('error_message');
   }
 
   const doClientCredentialsAPI = async () => {
