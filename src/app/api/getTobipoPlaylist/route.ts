@@ -2,6 +2,8 @@
 import { NextRequest } from "next/server";
 import axios from 'axios';
 import fs from 'fs';
+// fs/promisesも、別名で使う
+const fsPromises = fs.promises;
 import path from 'path';
 
 export async function POST(req: NextRequest) {
@@ -88,9 +90,10 @@ const getPlaylist = async (token: string) => {
             items
         };
         console.log('Updated tobipo playlist.');
-
+        
+        // erro handling
         const jsonPathforSave = "./src/app/_components/tobipoPlaylist.json";
-        fs.writeFileSync(jsonPathforSave, JSON.stringify(data));
+        fsPromises.writeFile(jsonPathforSave, JSON.stringify(data));
         return items;
     } catch (error: any) {
         if (error.response && error.response.status === 401) {
