@@ -112,7 +112,8 @@ const makeMusicCard = (data: any, isTobipo: boolean) => {
         >{data.artists[0].name}</div>
       </div>
       <a className="music-card-href"
-        href={`./${data.id}`}
+        href={isTobipo ? `./${data.id}` : data.external_urls.spotify}
+        target={isTobipo ? "_self" : "_blank"}
       >
         <div className='jacket-container'>
           <img src={data.album.images[0].url} alt={data.name} />

@@ -35,7 +35,7 @@ const getPlaylist = async (token: string) => {
 
         // console.log(diffDays);
         // 1日以上経っていたら更新または、tokenがない場合もキャッシュを返す
-        if (diffDays <= 1 || token === "") {
+        if (diffDays <= 0 || token === "") {
             console.log('Using cached tobipo playlist.');
             return fileData.items;
         }
@@ -44,7 +44,9 @@ const getPlaylist = async (token: string) => {
     }
 
     try {
+        // 2は自分で追加用のプレイリスト
         const tobipoPlaylist = process.env.SPOTIFY_TOBIPO_PLAYLIST;
+        const tobipoPlaylist2 = process.env.SPOTIFY_TOBIPO_PLAYLIST2;
         let response = await axios.get(`https://api.spotify.com/v1/playlists/${tobipoPlaylist}/tracks`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -61,6 +63,24 @@ const getPlaylist = async (token: string) => {
             });
             items = [...items, ...response.data.items];
         }
+        let response2 = await axios.get(`https://api.spotify.com/v1/playlists/${tobipoPlaylist2}/tracks`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept-Language': 'ja'
+                }
+            });
+        let items2 = response2.data.items;
+        while (response2.data.next) {
+            response2 = await axios.get(response2.data.next, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept-Language': 'ja'
+                }
+            });
+            items2 = [...items2, ...response2.data.items];
+        }
+        // itemとitem2を結合
+        items = [...items, ...items2];
         // console.log("nums of tracks:", items.length);
         //1000ほどあるはず
         data = {

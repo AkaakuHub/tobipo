@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
 
+import { styled } from '@mui/material/styles';
 
 import { Input } from '@mui/material';
 import { Button } from '@mui/material';
+import Switch from '@mui/material/Switch';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 
 import SpotifyColorButton from './components/SpotifyColorButton';
 import LoadingCircleCustom1 from './components/LoadingCircleCustom1';
-
 
 import { judgeStatus, fetch_getTobipoPlaylist, fetch_searchMusic, fetch_getRandomTobipoMusic } from './libs/APIhandler';
 import makeMusicCard from './libs/MusicCard';
@@ -37,12 +41,20 @@ function LoggedIn(props: { token: string }) {
   const [maxMusicCount, setMaxMusicCount] = useState(50);
   // const [tobipoMusicCount, setTobipoMusicCount] = useState(0);
 
+  const [showNonTobipo, setShowNonTobipo] = useState(false);
+
   const createCard = (data: any) => {
     const isTobipo: boolean = tobipoDatawithArray.some((item: any) => item.id === data.id);
-      // || (tobipoDatawithArray.some((item: any) => item.songName === data.name) && tobipoDatawithArray.some((item: any) => item.artist === data.artists[0].name));
+    // || (tobipoDatawithArray.some((item: any) => item.songName === data.name) && tobipoDatawithArray.some((item: any) => item.artist === data.artists[0].name));
     // 跳びポだけ表示に変更
-    if (isTobipo) {
+    // やっぱ全部表示でいいかも
+    // それを切り替えられるようにした
+    if (showNonTobipo) {
       return makeMusicCard(data, isTobipo);
+    } else {
+      if (isTobipo) {
+        return makeMusicCard(data, isTobipo);
+      }
     }
   }
 
@@ -89,6 +101,38 @@ function LoggedIn(props: { token: string }) {
     }
   };
 
+  const BigToggle = styled(Switch)({
+    width: 80,
+    height: 36,
+    padding: 0,
+    marginRight: 20,
+    borderRadius: 20,
+    '& .MuiSwitch-switchBase': {
+      transition: 'none',
+      '&.Mui-checked': {
+        transform: 'translateX(44px)',
+        color: '#fff',
+        '& + .MuiSwitch-track': {
+          opacity: 1,
+          backgroundColor: '#1fdf64',
+          borderColor: '#1fdf64',
+        },
+      },
+    },
+    '& .MuiSwitch-thumb': {
+      boxShadow: 'none',
+      width: 36,
+      height: 36,
+      marginTop: -9,
+      marginLeft: -9,
+    },
+    '& .MuiSwitch-track': {
+      borderRadius: 16 / 2,
+      opacity: 1,
+      backgroundColor: '#d32f2f',
+    },
+  });
+
   return (
     <>
       {(
@@ -109,6 +153,21 @@ function LoggedIn(props: { token: string }) {
               <HomeIcon />
               ホームに戻る
             </Button>
+            {/* showNonTobipoを切り替えるトグル追加 */}
+            <FormControlLabel
+              style={{
+                color: 'white',
+                fontFamily: 'var(--m-plus-rounded-1c)',
+                marginTop: '20px',
+                marginLeft: '80px',
+              }}
+              value="end"
+              control={<BigToggle checked={showNonTobipo}
+              />}
+              label={`跳びポ以外を表示${showNonTobipo ? 'する' : 'しない'}`}
+              labelPlacement="end"
+              onChange={() => setShowNonTobipo(now => !now)}
+            />
             <div className='search-container'
             >
               <Input placeholder="曲名、アーティスト名etc..."

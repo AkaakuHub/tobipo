@@ -387,7 +387,7 @@ html {
 .tobipo-frame {
   border-radius: 30px;
   border: 10px solid rgb(222, 70, 0);
-  box-shadow: 0 0 10px 5px rgba(222, 70, 0, 0.8);
+  box-shadow: 0 0 10px 10px rgba(222, 70, 0, 0.8);
   margin: -10px;
 }
 
