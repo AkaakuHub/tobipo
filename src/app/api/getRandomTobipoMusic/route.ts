@@ -1,8 +1,10 @@
 // getRandomTobipoMusic
 import { NextRequest } from "next/server";
-import axios from 'axios';
-import fs from 'fs';
-import path from 'path';
+
+import { kv } from "@vercel/kv";
+function kvKey(name: string) {
+    return `${name}-key`;
+}
 
 export async function POST(req: NextRequest) {
     try {
@@ -27,11 +29,12 @@ export async function POST(req: NextRequest) {
 }
 
 const getRandomTobipoMusic = async (numOfTracks: number) => {
-    const jsonPath = path.join(process.cwd(), 'src/app/_components/tobipoPlaylist.json');
     try {
-        const data = fs.readFileSync(jsonPath, 'utf-8');
         // ここで、numOfTracks分だけランダムに選ぶ
-        const items = JSON.parse(data).items;
+        const dataFromKV = await kv.json.get(kvKey("tobipoPlaylist"), "$");
+        const data = dataFromKV[0];
+
+        const items = data.items;
         const itemsLength = items.length;
         const randomNums = new Set<number>();
         while (randomNums.size < numOfTracks) {
