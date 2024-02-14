@@ -35,7 +35,7 @@ const getPlaylist = async (token: string) => {
 
         // console.log(diffDays);
         // 1日以上経っていたら更新または、tokenがない場合もキャッシュを返す
-        if (diffDays <= 1 || token === "") {
+        if (diffDays <= -1 || token === "") {
             console.log('Using cached tobipo playlist.');
             return fileData.items;
         }
@@ -88,7 +88,9 @@ const getPlaylist = async (token: string) => {
             items
         };
         console.log('Updated tobipo playlist.');
-        fs.writeFileSync(jsonPath, JSON.stringify(data));
+
+        const jsonPathforSave = "./src/app/_components/tobipoPlaylist.json";
+        fs.writeFileSync(jsonPathforSave, JSON.stringify(data));
         return items;
     } catch (error: any) {
         if (error.response && error.response.status === 401) {
