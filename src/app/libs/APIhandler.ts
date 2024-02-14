@@ -50,17 +50,6 @@ const fetch_searchMusic = async (songName: string, token: string, maxMusicCount:
   return res;
 }
 
-const fetch_getRandomTobipoMusic = async (numOfTracks: number) => {
-  const res = await fetch("api/getRandomTobipoMusic", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ numOfTracks: numOfTracks })
-  });
-  return res;
-}
-
 const fetch_metadata = async (id: string) => {
   // これだけ、サーバーサイドで呼ばれるので、URLを気をつける
   const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL ?? "";
@@ -74,4 +63,4 @@ const fetch_metadata = async (id: string) => {
   return res;
 }
 
-export { fetch_doClientCredentials, judgeStatus, fetch_getTobipoPlaylist, fetch_searchMusic, fetch_getRandomTobipoMusic, fetch_metadata };
+export { fetch_doClientCredentials, judgeStatus, fetch_getTobipoPlaylist, fetch_searchMusic, fetch_metadata };

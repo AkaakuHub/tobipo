@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
+import { TobipoData } from './types';
 import { styled } from '@mui/material/styles';
 
 import { Input } from '@mui/material';
 import { Button } from '@mui/material';
 import Switch from '@mui/material/Switch';
-import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
@@ -15,10 +14,8 @@ import ShuffleIcon from '@mui/icons-material/Shuffle';
 import SpotifyColorButton from './components/SpotifyColorButton';
 import LoadingCircleCustom1 from './components/LoadingCircleCustom1';
 
-import { judgeStatus, fetch_getTobipoPlaylist, fetch_searchMusic, fetch_getRandomTobipoMusic } from './libs/APIhandler';
+import { judgeStatus, fetch_getTobipoPlaylist, fetch_searchMusic } from './libs/APIhandler';
 import makeMusicCard from './libs/MusicCard';
-
-// ここに、jsonからmuiのカードコンポーネントを作成する関数を作成する
 
 function LoggedIn(props: { token: string }) {
   const [isFetchingTobipoPlaylist, setIsFetchingTobipoPlaylist] = useState(true);
@@ -27,24 +24,15 @@ function LoggedIn(props: { token: string }) {
 
   const [songName, setSongName] = useState("");
   const [searchResult, setSearchResults] = useState([]);
-
-  // const [isRandomTobipoMode, setIsRandomTobipoMode] = useState(false);
-  const [randomTobipoResult, setRandomTobipoResult] = useState([]);
-  // const [randomTobipoInfo, setRandomTobipoInfo] = useState({} as any);
-
-  // const [tobipoIDs, setTobipoIDs] = useState([] as string[]);
-  // const [tobipoSongNames, setTobipoSongNames] = useState([] as string[]);
-  // const [tobipoArtists, setTobipoArtists] = useState([] as string[]);
+  const [randomTobipoResult, setRandomTobipoResult] = useState([] as any[]);
 
   const [tobipoDatawithArray, setTobipoDatawithArray] = useState([] as any[]);
-
   const [maxMusicCount, setMaxMusicCount] = useState(50);
   // const [tobipoMusicCount, setTobipoMusicCount] = useState(0);
 
   const [showNonTobipo, setShowNonTobipo] = useState(false);
 
   const createCard = (data: any) => {
-    // console.log(data);
     const isTobipo: boolean = tobipoDatawithArray.some((item: any) => item.id === data.id);
     // || (tobipoDatawithArray.some((item: any) => item.songName === data.name) && tobipoDatawithArray.some((item: any) => item.artist === data.artists[0].name));
     // 跳びポだけ表示に変更
@@ -79,17 +67,15 @@ function LoggedIn(props: { token: string }) {
       setSearchResults(data);
       setIsSearching(false);
       setRandomTobipoResult([]);
-      // setRandomTobipoInfo({});
     }
   };
 
   const getRandomTobipoMusicAPI = async () => {
     setIsGettingRandomTobipo(true);
-    const res = await fetch_getRandomTobipoMusic(1);
-    if (judgeStatus(res.status)) {
-      const data = await res.json();
-      setRandomTobipoResult(data);
-    }
+    // tobipoDatawithArrayから、1曲ランダムに選ぶ
+    const randomIndex: number = Math.floor(Math.random() * tobipoDatawithArray.length);
+    const randomTobipo: TobipoData = tobipoDatawithArray[randomIndex];
+    setRandomTobipoResult([randomTobipo]);
     setIsGettingRandomTobipo(false);
   };
 

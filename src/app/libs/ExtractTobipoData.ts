@@ -1,6 +1,7 @@
+import { TobipoData } from '../types';
 
 const extractTobipoData = (data: any, kind: string) => {
-  let newTobipoData;
+  let newTobipoData: TobipoData[] = [];
   switch (kind) {
     case "playlist":
       newTobipoData = data.map((item: any) => {
