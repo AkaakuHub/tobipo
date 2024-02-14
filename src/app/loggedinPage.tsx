@@ -23,6 +23,7 @@ import makeMusicCard from './libs/MusicCard';
 function LoggedIn(props: { token: string }) {
   const [isFetchingTobipoPlaylist, setIsFetchingTobipoPlaylist] = useState(true);
   const [isSearching, setIsSearching] = useState(false);
+  const [isGettingRandomTobipo, setIsGettingRandomTobipo] = useState(false);
 
   const [songName, setSongName] = useState("");
   const [searchResult, setSearchResults] = useState([]);
@@ -76,20 +77,20 @@ function LoggedIn(props: { token: string }) {
     if (judgeStatus(res.status)) {
       const data = await res.json();
       setSearchResults(data);
-
       setIsSearching(false);
-
       setRandomTobipoResult([]);
       // setRandomTobipoInfo({});
     }
   };
 
   const getRandomTobipoMusicAPI = async () => {
+    setIsGettingRandomTobipo(true);
     const res = await fetch_getRandomTobipoMusic(1);
     if (judgeStatus(res.status)) {
       const data = await res.json();
       setRandomTobipoResult(data);
     }
+    setIsGettingRandomTobipo(false);
   };
 
   const BigToggle = styled(Switch)({
@@ -199,11 +200,13 @@ function LoggedIn(props: { token: string }) {
             <div className='search-button-container'
             >
               <SpotifyColorButton variant="contained" color="primary"
-                style={isSearching ? {
-                  backgroundColor: 'gray',
-                  cursor: 'not-allowed',
+                style={{
                   fontFamily: 'var(--m-plus-rounded-1c)',
-                } : {}}
+                  ...(isSearching && {
+                    backgroundColor: 'gray',
+                    cursor: 'not-allowed',
+                  }),
+                }}
                 disabled={isSearching}
                 onClick={() => {
                   if (songName !== "") {
@@ -218,12 +221,19 @@ function LoggedIn(props: { token: string }) {
                 <SearchIcon />
                 検索
               </SpotifyColorButton>
-              <Button variant="contained" color="info"
-                style={{ marginLeft: '20px', fontFamily: 'var(--m-plus-rounded-1c)', }}
-                onClick={() => {
-                  getRandomTobipoMusicAPI();
-                }
-                }
+              <Button
+                variant="contained"
+                color="info"
+                style={{
+                  marginLeft: '20px',
+                  fontFamily: 'var(--m-plus-rounded-1c)',
+                  ...(isGettingRandomTobipo && {
+                    backgroundColor: 'gray',
+                    cursor: 'not-allowed',
+                  }),
+                }}
+                disabled={isGettingRandomTobipo}
+                onClick={getRandomTobipoMusicAPI}
               >
                 <ShuffleIcon />
                 ランダムに選ぶ
