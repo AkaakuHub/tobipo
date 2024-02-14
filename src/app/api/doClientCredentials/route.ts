@@ -3,8 +3,8 @@
 import { NextRequest } from "next/server";
 import axios from 'axios';
 
-const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
-const clientSecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
+const clientId = process.env.SPOTIFY_CLIENT_ID;
+const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 
 export async function POST(req: NextRequest) {
   try {

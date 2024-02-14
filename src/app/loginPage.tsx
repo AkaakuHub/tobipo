@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 
-import { accessUrl } from "./login/Spotify";
 import Cookies from 'js-cookie';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
@@ -93,6 +92,7 @@ function Login() {
           style={{
             fontSize: '20px',
             padding: '8px 24px',
+            fontFamily: 'var(--m-plus-rounded-1c)',
           }}
           onClick={() => {
             doClientCredentialsAPI();

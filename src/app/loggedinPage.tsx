@@ -98,7 +98,8 @@ function LoggedIn(props: { token: string }) {
             <Button variant="contained" color="error"
               style={{
                 marginTop: '20px',
-                marginLeft: '20px'
+                marginLeft: '20px',
+                fontFamily: 'var(--m-plus-rounded-1c)',
               }}
               onClick={() => {
                 sessionStorage.removeItem('temp_token');
@@ -116,6 +117,7 @@ function LoggedIn(props: { token: string }) {
                   color: 'white',
                   width: '300px',
                   fontSize: '20px',
+                  fontFamily: 'var(--m-plus-rounded-1c)',
                 }}
                 onChange={e => setSongName(e.target.value)}
                 onKeyDown={e => {
@@ -149,7 +151,8 @@ function LoggedIn(props: { token: string }) {
               <SpotifyColorButton variant="contained" color="primary"
                 style={isSearching ? {
                   backgroundColor: 'gray',
-                  cursor: 'not-allowed'
+                  cursor: 'not-allowed',
+                  fontFamily: 'var(--m-plus-rounded-1c)',
                 } : {}}
                 disabled={isSearching}
                 onClick={() => {
@@ -166,7 +169,7 @@ function LoggedIn(props: { token: string }) {
                 検索
               </SpotifyColorButton>
               <Button variant="contained" color="info"
-                style={{ marginLeft: '20px' }}
+                style={{ marginLeft: '20px', fontFamily: 'var(--m-plus-rounded-1c)', }}
                 onClick={() => {
                   getRandomTobipoMusicAPI();
                 }

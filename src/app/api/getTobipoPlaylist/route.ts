@@ -44,7 +44,7 @@ const getPlaylist = async (token: string) => {
     }
 
     try {
-        const tobipoPlaylist = process.env.NEXT_PUBLIC_SPOTIFY_TOBIPO_PLAYLIST;
+        const tobipoPlaylist = process.env.SPOTIFY_TOBIPO_PLAYLIST;
         let response = await axios.get(`https://api.spotify.com/v1/playlists/${tobipoPlaylist}/tracks`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
