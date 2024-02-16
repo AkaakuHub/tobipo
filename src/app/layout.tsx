@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(url),
   title: siteName,
   description,
+  keywords: ["跳びポ", "跳びポHub", "アニソン", "アイドル", "飛びポ"],
   openGraph: {
     title: siteName,
     description,
