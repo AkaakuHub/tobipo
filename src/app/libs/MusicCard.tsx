@@ -4,7 +4,7 @@ import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import CircularProgress from '@mui/material/CircularProgress';
 
-// import Image from 'next/image';
+import Image from 'next/image';
 
 const makeTweet = (name: string, artist: string, id: string) => {
   const this_site_url: string = process.env.NEXT_PUBLIC_BASE_URL as string;
@@ -112,8 +112,12 @@ const makeMusicCard = (data: any, isTobipo: boolean) => {
         target={isTobipo ? "_self" : "_blank"}
       >
         <div className='jacket-container'>
-          <img src={data.image640_url} alt={data.songName}
+          <Image src={data.image640_url} alt={data.songName}
+          width={640}
+          height={640}
           />
+          {/* <img src={data.image640_url} alt={data.songName}
+          /> */}
         </div>
       </a>
       <AudioPlayer src={data.preview_url} />

@@ -12,6 +12,7 @@ const m_plus = M_PLUS_Rounded_1c({
 const siteName: string = "跳びポHub";
 const description: string = "すべての跳びポが、ここにある。";
 const url: string = process.env.NEXT_PUBLIC_BASE_URL || "";
+const googleSearchConsole: string = process.env.NEXT_PUBLIC_GOOGLE_SEARCH_CONSOLE || "";
 
 export const metadata: Metadata = {
   metadataBase: new URL(url),
@@ -49,7 +50,7 @@ export const metadata: Metadata = {
     creator: "@",
   },
   verification: {
-    google: 'サーチコンソール',
+    google: googleSearchConsole,
   },
   alternates: {
     canonical: url,
