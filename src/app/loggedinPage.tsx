@@ -254,6 +254,14 @@ function LoggedIn(props: { token: string }) {
       )
       }
       <LoadingCircleCustom1 loading={isFetchingTobipoPlaylist} />
+      {
+        isFetchingTobipoPlaylist && (
+          <div className='fetchingTobipoPlaylistMsg'
+          >
+            データを取得中です。しばらくお待ちください。
+          </div>
+        )
+      }
     </>
   )
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import SpotifyColorButton from "./components/SpotifyColorButton";
-// import LoadingCircleCustom1 from './components/LoadingCircleCustom1';
+import LoadingCircleCustom1 from './components/LoadingCircleCustom1';
 
 import { judgeStatus, fetch_doClientCredentials } from './libs/APIhandler';
 // import makeMusicCard from './libs/MusicCard';
@@ -10,6 +10,7 @@ import { judgeStatus, fetch_doClientCredentials } from './libs/APIhandler';
 function Login() {
   // const [randomTobipoResult, setRandomTobipoResult] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isDoingClientCredentials, setIsDoingClientCredentials] = useState(false);
 
   // const createCard = (data: any) => {
   //   return makeMusicCard(data, true);
@@ -43,6 +44,7 @@ function Login() {
         console.error('Error:', error);
         setErrorMessage("Internal server error");
       }
+      // setIsDoingClientCredentials(false);
       // reload
       window
         .location
@@ -94,6 +96,7 @@ function Login() {
           }}
           onClick={() => {
             doClientCredentialsAPI();
+            setIsDoingClientCredentials(true);
           }
           }
         >
@@ -151,6 +154,7 @@ function Login() {
           allow="encrypted-media">
         </iframe>
       </div>
+      <LoadingCircleCustom1 loading={isDoingClientCredentials} />
     </div>
   )
 }
