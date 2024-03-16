@@ -1,17 +1,16 @@
 // getMetaData
+// これはクライアントサイドから呼ばれる
+// 別に機密データじゃないし大丈夫だろ
 
 import { NextRequest } from "next/server";
 
-import { kv } from "@vercel/kv";
-function kvKey(name: string) {
-  return `${name}-key`;
-}
+import { db } from "@/firebase/firebase";
 
 export async function POST(req: NextRequest) {
   try {
     const requestBody = await req.json();
     const id: string = requestBody.id;
-    const res = await makeMetadataById(id);
+    const res = await getMetaData(id);
     if (res && Object.keys(res).length === 0) {
       return new Response('Unauthorized', { status: 401 });
     } else {
@@ -27,29 +26,27 @@ export async function POST(req: NextRequest) {
   }
 }
 
-const makeMetadataById = async (id: string) => {
+const getMetaData = async (id: string) => {
   try {
-    const dataFromKV = await kv.json.get(kvKey("tobipoPlaylist"), "$");
-    const fileData = dataFromKV[0];
-    const data = fileData.items;
-    const index = data.findIndex((item: any) => item.id === id);
-    if (index !== -1) {
-      const target = data[index];
+    const dataFromFB = await db.ref(`tobipoPlaylist/items/${id}`).get();
+    const data = dataFromFB.val();
+    if (data !== null) {
       return {
-        songName: target.songName,
-        artist: target.artist,
-        image640_url: target.image640_url,
+        songName: data.songName,
+        artist: data.artist,
+        image640_url: data.image640_url,
       };
-
+    } else {
+      const baseURL: string = process.env.NEXT_PUBLIC_BASE_URL || "";
+      return {
+        songName: "Not found",
+        artist: "Not found",
+        image640_url: `${baseURL}/ogp_default.png`,
+      };
     }
-    const baseURL: string = process.env.NEXT_PUBLIC_BASE_URL || "";
-    return {
-      songName: "Not found",
-      artist: "Not found",
-      image640_url: `${baseURL}/ogp_default.png`,
-    };
+
   } catch (error: any) {
-    console.error('検索エラー:', error);
+    console.error('metadata検索エラー:', error);
     const baseURL: string = process.env.NEXT_PUBLIC_BASE_URL || "";
     return {
       songName: "Error",

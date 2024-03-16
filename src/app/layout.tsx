@@ -1,13 +1,5 @@
 import type { Metadata } from "next";
-import { M_PLUS_Rounded_1c } from "next/font/google";
-
 import "./globals.css";
-
-const m_plus = M_PLUS_Rounded_1c({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--m-plus-rounded-1c",
-});
 
 const siteName: string = "跳びポHub";
 const description: string = "すべての跳びポが、ここにある。";
@@ -66,8 +58,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={`${m_plus.variable}`}
-      >
+      <body>
         {children}
       </body>
     </html>

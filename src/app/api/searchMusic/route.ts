@@ -2,7 +2,7 @@
 import { NextRequest } from "next/server";
 import axios from 'axios';
 
-import extractTobipoData from '../../libs/ExtractTobipoData';
+import extractTobipoData from '@/libs/ExtractTobipoData';
 
 export async function POST(req: NextRequest) {
     try {

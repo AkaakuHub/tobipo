@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import Login from "./loginPage"
-import LoggedIn from "./loggedinPage"
+import Login from "@/components/(pages)/loginPage";
+import LoggedIn from "@/components/(pages)/loggedinPage"
 
 import { getTokenFromUrl } from './login/Spotify';
 
@@ -31,20 +31,21 @@ function App() {
   }, [])
 
   return (
-    <>{
-      loading ? (<div></div >) :
-        (
-          token ? (
-            <>
-              <LoggedIn token={token} />
-            </>
-          ) : (
-            <>
-              <Login />
-            </>
+    <>
+      {
+        loading ? (<div></div >) :
+          (
+            token ? (
+              <>
+                <LoggedIn token={token} />
+              </>
+            ) : (
+              <>
+                <Login />
+              </>
+            )
           )
-        )
-    }
+      }
     </>
   );
 }

@@ -1,22 +1,22 @@
 import type { Metadata } from "next";
-import { M_PLUS_Rounded_1c } from "next/font/google";
-// import "../globals.css";
 
-import { fetch_metadata } from "../libs/APIhandler";
-
-const m_plus = M_PLUS_Rounded_1c({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--m-plus-rounded-1c",
-});
+import { fetch_metadata } from "@/libs/APIhandler";
 
 export const generateMetadata = async ({ params }: { params: { id: string } }): Promise<Metadata> => {
-  const res = await fetch_metadata(params.id);
-  const data = await res.json()
+  let siteName: string = "跳びポHub";
+  let description: string = "すべての跳びポが、ここにある。";
+  let url: string = process.env.NEXT_PUBLIC_BASE_URL || "";
+  let image640_url: string = `${url}/ogp_default.png`;
+  // idは22文字固定
+  if (params.id.length === 22) {
+    const res = await fetch_metadata(params.id);
+    const data = await res.json()
 
-  const siteName: string = `${data.songName} - 跳びポHub`;
-  const description: string = "すべての跳びポが、ここにある。";
-  const url: string = process.env.NEXT_PUBLIC_BASE_URL + "/" + params.id || "";
+    siteName = `${data.songName} - 跳びポHub`;
+    description = "すべての跳びポが、ここにある。";
+    url = process.env.NEXT_PUBLIC_BASE_URL + "/" + params.id || "";
+    image640_url = data.image640_url;
+  }
 
   return {
     title: siteName,
@@ -29,7 +29,7 @@ export const generateMetadata = async ({ params }: { params: { id: string } }): 
       type: "website",
       images: [
         {
-          url: data.image640_url,
+          url: image640_url,
           width: 1200,
           height: 630,
           alt: "OGP画像の代替テキスト - 該当する曲のアルバムアートワーク",
@@ -42,7 +42,7 @@ export const generateMetadata = async ({ params }: { params: { id: string } }): 
       description,
       images: [
         {
-          url: data.image640_url,
+          url: image640_url,
           width: 1200,
           height: 630,
           alt: "OGP画像の代替テキスト - 該当する曲のアルバムアートワーク",
@@ -61,8 +61,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={`${m_plus.variable}`}
-      >
+      <body>
         {children}
       </body>
     </html>
