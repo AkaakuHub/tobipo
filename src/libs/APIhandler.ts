@@ -28,13 +28,13 @@ const fetch_doClientCredentials = async () => {
   return res;
 }
 
-const fetch_getTobipoPlaylist = async (token: string) => {
+const fetch_getTobipoPlaylist = async (token: string, kind: string) => {
   const res = await fetch("api/getTobipoPlaylist", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ token: token })
+    body: JSON.stringify({ token: token, kind: kind })
   });
   return res;
 }

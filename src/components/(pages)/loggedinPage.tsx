@@ -35,6 +35,8 @@ function LoggedIn(props: { token: string }) {
 
   const [showNonTobipo, setShowNonTobipo] = useState<boolean>(false);
 
+  const [isDBupToDate, setIsDBupToDate] = useState<boolean>(true);
+
   const createCard = (id: string, data: TobipoData) => {
     const isTobipo: boolean = tobipoOnlyIDArray.includes(id);
     // || (tobipoDataObject.some((item: any) => item.songName === data.name) && tobipoDataObject.some((item: any) => item.artist === data.artists[0].name));
@@ -63,9 +65,13 @@ function LoggedIn(props: { token: string }) {
 
   useEffect(() => {
     const getTobipoPlaylistAPI = async () => {
-      const res = await fetch_getTobipoPlaylist(props.token);
+      const res = await fetch_getTobipoPlaylist(props.token, "first");
       if (judgeStatus(res.status)) {
-        const data = await res.json();
+        const json = await res.json();
+        const isUpToDate: boolean = json.isUpToDate;
+        const data: string[] = json.data;
+        // console.log('isUpToDate:', isUpToDate);
+        setIsDBupToDate(isUpToDate);
         setTobipoOnlyIDArray(data);
         initializeTobipoDataObject(data);
         setIsFetchingTobipoPlaylist(false);
@@ -74,9 +80,25 @@ function LoggedIn(props: { token: string }) {
     getTobipoPlaylistAPI();
   }, [props.token]);
 
+  // isDBupToDateがfalseならAPIを叩く
+  // 非同期で最新データを取得して勝手に更新しておく
+  useEffect(() => {
+    const updateFunc = async () => {
+      const res = await fetch_getTobipoPlaylist(props.token, "second");
+      if (judgeStatus(res.status)) {
+        const data = await res.json();
+        setTobipoOnlyIDArray(data);
+        initializeTobipoDataObject(data);
+      }
+    }
+    if (!isDBupToDate) {
+      updateFunc();
+    }
+  }, [isDBupToDate, props.token]);
+
   const initializeTobipoDataObject = async (tobipoOnlyIDArray: string[]) => {
     const initialTobipoDataObject: { [key: string]: TobipoData } = {};
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 2; i++) {
       const randomIndex = Math.floor(Math.random() * tobipoOnlyIDArray.length);
       const id = tobipoOnlyIDArray[randomIndex];
       const res = await fetch_getSingleData(id);

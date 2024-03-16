@@ -10,7 +10,8 @@ export async function POST(req: NextRequest) {
   try {
     const requestBody = await req.json();
     const token: string = requestBody.token;
-    const res = await getPlaylist(token);
+    const kind: string = requestBody.kind;
+    const res = await getPlaylist(token, kind);
     if (res && Object.keys(res).length === 0) {
       return new Response('Unauthorized', { status: 401 });
     } else {
@@ -26,32 +27,42 @@ export async function POST(req: NextRequest) {
   }
 }
 
-const getPlaylist = async (token: string) => {
-  let data;
-  try {
-    // FirebaseからlastUpdatedを取得
-    let lastUpdatedFromFB: string = "";
-    const snapshot = await db.ref("tobipoPlaylist/lastUpdated").get();
-    lastUpdatedFromFB = snapshot.val();
-    console.log('lastUpdatedFromFB:', new Date(lastUpdatedFromFB));
+const getPlaylist = async (token: string, kind: string) => {
+  switch (kind) {
+    case "first":
+      try {
+        let isUpToDate: boolean = false;
+        // FirebaseからlastUpdatedを取得
+        let lastUpdatedFromFB: string = "";
+        const snapshot = await db.ref("tobipoPlaylist/lastUpdated").get();
+        lastUpdatedFromFB = snapshot.val();
+        console.log('lastUpdatedFromFB:', new Date(lastUpdatedFromFB));
 
-    const lastUpdated: Date = new Date(lastUpdatedFromFB);
-    const diffDays: number = Math.ceil(Math.abs(new Date().getTime() - lastUpdated.getTime()) / (1000 * 60 * 60 * 24));
+        const lastUpdated: Date = new Date(lastUpdatedFromFB);
+        const diffDays: number = Math.ceil(Math.abs(new Date().getTime() - lastUpdated.getTime()) / (1000 * 60 * 60 * 24));
 
-    // 1日以上経っていたら更新または、tokenがない場合もキャッシュを返す
-    if (diffDays <= 1 || token === "") {
-      console.log('Using cached tobipo playlist.');
-      // Firebaseから登録されている全てのkeyのみを取得
-      // const dataFromFB = await db.ref("tobipoPlaylist/items").get();
-      const dataFromFB = await db.ref("tobipoPlaylist/idArray").get();
-      data = dataFromFB.val();
-      // console.log('data:', data);
-      return data;
-    }
-  } catch (error) {
-    console.log('No cached tobipo playlist found.');
+        // 1日以上経っていたら更新または、tokenがない場合もキャッシュを返す
+        // レスポンス改善のため、一回目はキャッシュを返す
+        if (diffDays <= 1 || token === "") {
+          isUpToDate = true;
+        }
+        console.log('Using cached tobipo playlist.');
+        const dataFromFB = await db.ref("tobipoPlaylist/idArray").get();
+        const data = dataFromFB.val();
+        return {
+          isUpToDate: isUpToDate,
+          data: data
+        }
+      } catch (error) {
+        console.log('No cached tobipo playlist found.');
+        return await callAPI(token);
+      }
+    case "second":
+      return await callAPI(token);
   }
+}
 
+const callAPI = async (token: string) => {
   try {
     const tobipoPlaylist = process.env.SPOTIFY_TOBIPO_PLAYLIST;
     let response = await axios.get(`https://api.spotify.com/v1/playlists/${tobipoPlaylist}/tracks`, {
