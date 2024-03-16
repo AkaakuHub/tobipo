@@ -4,7 +4,7 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import CircularProgress from '@mui/material/CircularProgress';
-import { TobipoData } from '../types';
+import { TobipoData } from "@/app/types";
 
 // import Image from 'next/image';
 

@@ -1,4 +1,4 @@
-import { TobipoData } from '../types';
+import { TobipoData } from "@/app/types";
 
 const extractTobipoData = (data: any, kind: string) => {
   let newTobipoData: { [key: string]: TobipoData } = {};
