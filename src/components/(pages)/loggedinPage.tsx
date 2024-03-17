@@ -64,20 +64,26 @@ function LoggedIn(props: { token: string }) {
   };
 
   useEffect(() => {
-    const getTobipoPlaylistAPI = async () => {
-      const res = await fetch_getTobipoPlaylist(props.token, "first");
-      if (judgeStatus(res.status)) {
-        const json = await res.json();
-        const isUpToDate: boolean = json.isUpToDate;
-        const data: string[] = json.data;
-        // console.log('isUpToDate:', isUpToDate);
-        setIsDBupToDate(isUpToDate);
-        setTobipoOnlyIDArray(data);
-        initializeTobipoDataObject(data);
+    const fetchTobipoPlaylist: () => void = async () => {
+      try {
+        setIsFetchingTobipoPlaylist(true);
+        const res = await fetch_getTobipoPlaylist(props.token, "first");
+        if (judgeStatus(res.status)) {
+          const json = await res.json();
+          const isUpToDate: boolean = json.isUpToDate;
+          const data: string[] = json.data;
+          setIsDBupToDate(isUpToDate);
+          setTobipoOnlyIDArray(data);
+          initializeTobipoDataObject(data);
+        }
+      } catch (error) {
+        console.error('Error fetching Tobipo playlist:', error);
+      } finally {
         setIsFetchingTobipoPlaylist(false);
       }
-    }
-    getTobipoPlaylistAPI();
+    };
+
+    fetchTobipoPlaylist();
   }, [props.token]);
 
   // isDBupToDateがfalseならAPIを叩く
