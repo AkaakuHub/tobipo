@@ -160,6 +160,8 @@ function Login() {
         </div>
         <div className='disclaimerContainer fadein4'>
           最新メンテナンス日(データベースは自動で更新されます): 2024/3/16
+          <br />
+          <a href="https://github.com/AkaakuHub" target="_blank">Akaaku</a>&apos;s product
         </div>
         <LoadingCircleCustom1 loading={isDoingClientCredentials} />
       </div>
