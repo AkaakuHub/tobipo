@@ -113,22 +113,17 @@ function LoggedIn(props: { token: string }) {
         initialTobipoDataObject[id] = data;
       }
     }
-    // console.log('initialTobipoDataObject:', initialTobipoDataObject);
     setTobipoDataObject(initialTobipoDataObject);
   }
 
-
-  // 既存の getRandomTobipoMusicAPI 関数を分割
   const getRandomTobipoMusicAPI = async () => {
-    setIsGettingRandomTobipo(true);
-
     // tobipoDataObjectからランダムに1つ選ぶ
     const keys = Object.keys(tobipoDataObject);
     if (keys.length === 0) {
       // tobipoDataObjectが空の場合は何もしない
-      setIsGettingRandomTobipo(false);
       return;
     }
+
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
     const randomTobipo: TobipoData = tobipoDataObject[randomKey];
 
@@ -146,26 +141,29 @@ function LoggedIn(props: { token: string }) {
   // useEffect フックを追加
   useEffect(() => {
     const fetchData = async () => {
-      if (tobipoOnlyIDArray.length > 0) {
-        const randomIndex = Math.floor(Math.random() * tobipoOnlyIDArray.length);
-        const id = tobipoOnlyIDArray[randomIndex];
-        const res = await fetch_getSingleData(id);
-        if (judgeStatus(res.status)) {
-          const data = await res.json();
-          setTobipoDataObject(prevTobipoDataObject => ({
-            ...prevTobipoDataObject,
-            [id]: data
-          }));
+      if (!isGettingRandomTobipo && Object.keys(tobipoDataObject).length < 5) {
+        setIsGettingRandomTobipo(true);
+
+        if (tobipoOnlyIDArray.length > 0) {
+          const randomIndex = Math.floor(Math.random() * tobipoOnlyIDArray.length);
+          const id = tobipoOnlyIDArray[randomIndex];
+          const res = await fetch_getSingleData(id);
+
+          if (judgeStatus(res.status)) {
+            const data = await res.json();
+            setTobipoDataObject(prevTobipoDataObject => ({
+              ...prevTobipoDataObject,
+              [id]: data
+            }));
+          }
         }
+        // console.log('tobipoDataObject:', tobipoDataObject);
+        setIsGettingRandomTobipo(false);
       }
-      setIsGettingRandomTobipo(false);
     };
 
-    if (isGettingRandomTobipo) {
-      fetchData();
-    }
-  }, [isGettingRandomTobipo, tobipoOnlyIDArray]);
-
+    fetchData();
+  }, [isGettingRandomTobipo, tobipoDataObject, tobipoOnlyIDArray]);
 
   // トグルのスタイル
   const BigToggle = styled(Switch)({
@@ -239,7 +237,9 @@ function LoggedIn(props: { token: string }) {
             />
             <div className='search-container'
             >
-              <Input placeholder="曲名、アーティスト名etc..."
+              <Input
+                name="search-box"
+                placeholder="曲名、アーティスト名etc..."
                 className='search-box'
                 style={{
                   color: 'white',
@@ -304,12 +304,12 @@ function LoggedIn(props: { token: string }) {
                 style={{
                   marginLeft: '20px',
                   fontFamily: 'var(--m-plus-rounded-1c)',
-                  ...(isGettingRandomTobipo && {
+                  ...(Object.keys(tobipoDataObject).length === 0 && {
                     backgroundColor: 'gray',
                     cursor: 'not-allowed',
                   }),
                 }}
-                disabled={isGettingRandomTobipo}
+                disabled={Object.keys(tobipoDataObject).length === 0}
                 onClick={getRandomTobipoMusicAPI}
               >
                 <ShuffleIcon />
