@@ -62,9 +62,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      {/* <Suspense fallback={<></>}>
-        <GoogleAnalytics />
-      </Suspense> */}
       <GoogleAnalytics gaId={googleAnalyticsId} />
       <body>
         {children}
