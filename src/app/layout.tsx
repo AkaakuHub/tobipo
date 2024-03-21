@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+import GoogleAnalytics from "@/components/(parts)/GoogleAnalytics";
+import { Suspense } from "react";
+
 const siteName: string = "跳びポHub";
 const description: string = "すべての跳びポが、ここにある。";
 const url: string = process.env.NEXT_PUBLIC_BASE_URL || "";
@@ -58,6 +61,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
+      <Suspense fallback={<></>}>
+        <GoogleAnalytics />
+      </Suspense>
       <body>
         {children}
       </body>

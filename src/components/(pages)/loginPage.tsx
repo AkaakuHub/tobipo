@@ -159,9 +159,12 @@ function Login() {
           </iframe>
         </div>
         <div className='disclaimerContainer fadein4'>
-          最新メンテナンス日(データベースは自動で更新されます): 2024/3/16
+          最新メンテナンス日: 2024/3/22 (データベースの更新日とは関係ありません)
           <br />
-          <a href="https://github.com/AkaakuHub" target="_blank">Akaaku</a>&apos;s product
+          <a href="https://twitter.com/akaakuhub" target="_blank">Akaaku</a>&apos;s product
+          <p>
+            当サイトでは、ユーザー体験の向上やサイトの最適化のため、GoogleアナリティクスとそのためのCookieを使用しています。
+          </p>
         </div>
         <LoadingCircleCustom1 loading={isDoingClientCredentials} />
       </div>
