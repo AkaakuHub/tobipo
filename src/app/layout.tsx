@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import { GoogleAnalytics } from '@next/third-parties/google';
+// import { GoogleAnalytics } from '@next/third-parties/google';
+import { GoogleAnalytics } from "@/components/(parts)/GoogleAnalytics";
 
 const siteName: string = "跳びポHub";
 const description: string = "すべての跳びポが、ここにある。";
 const url: string = process.env.NEXT_PUBLIC_BASE_URL || "";
 const googleSearchConsole: string = process.env.NEXT_PUBLIC_GOOGLE_SEARCH_CONSOLE || "";
 
-const googleAnalyticsId: string = process.env.NEXT_PUBLIC_GA_ID || "";
+// const googleAnalyticsId: string = process.env.NEXT_PUBLIC_GA_ID || "";
 
 export const metadata: Metadata = {
   metadataBase: new URL(url),
@@ -62,7 +63,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <GoogleAnalytics gaId={googleAnalyticsId} />
+      <head>
+        {/* <GoogleAnalytics gaId={googleAnalyticsId} /> */}
+        <GoogleAnalytics />
+      </head>
       <body>
         {children}
       </body>
