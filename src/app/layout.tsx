@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 // import { GoogleAnalytics } from '@next/third-parties/google';
+import { Suspense } from "react";
 import { GoogleAnalytics } from "@/components/(parts)/GoogleAnalytics";
 
 const siteName: string = "跳びポHub";
@@ -65,7 +66,9 @@ export default function RootLayout({
     <html lang="ja">
       <head>
         {/* <GoogleAnalytics gaId={googleAnalyticsId} /> */}
-        <GoogleAnalytics />
+        <Suspense fallback={null}>
+          <GoogleAnalytics />
+        </Suspense>
       </head>
       <body>
         {children}
