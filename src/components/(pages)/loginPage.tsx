@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react'
 
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import CloseIcon from '@mui/icons-material/Close';
+
 import SpotifyColorButton from "../(parts)/SpotifyColorButton";
 import LoadingCircleCustom1 from '../(parts)/LoadingCircleCustom1';
 
 import { judgeStatus, fetch_doClientCredentials } from '@/libs/APIhandler';
-// import makeMusicCard from './libs/MusicCard';
+
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Modal from '@mui/material/Modal';
+
 
 import GlobalStyle from "@/libs/GlobalStyle";
 
@@ -13,6 +21,10 @@ function Login() {
   // const [randomTobipoResult, setRandomTobipoResult] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [isDoingClientCredentials, setIsDoingClientCredentials] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const handleOpen = () => setIsModalOpen(true);
+  const handleClose = () => setIsModalOpen(false);
 
   // const createCard = (data: any) => {
   //   return makeMusicCard(data, true);
@@ -53,6 +65,18 @@ function Login() {
         .reload();
     }
   }
+  // must be here
+  const modalStyle = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: "70%",
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
 
   return (
@@ -65,18 +89,18 @@ function Login() {
         </div>
         <div className='descriptionContainer fadein1'
         >
-          <div className='descriptionContent'
+          <p className='descriptionContent'
           >
             すべての跳びポが、ここにある。
-          </div>
-          <div className='descriptionContent'
+          </p>
+          <p className='descriptionContent'
           >
             「跳びポ」とは、おもにアニメやアイドルの曲において、ジャンプしたくなるような部分のことを指す言葉で、ほとんどの場合、音が一瞬だけ止まるような部分が「跳びポ」である。
-          </div>
-          <div className='descriptionContent'
+          </p>
+          <p className='descriptionContent'
           >
             あなたもお気に入りの跳びポを見つけよう。
-          </div>
+          </p>
         </div>
         <div>
           {errorMessage !== "" && (
@@ -93,18 +117,18 @@ function Login() {
         </div>
         <div className='loginButtonContainer fadein2'>
           <SpotifyColorButton
-            style={{
+            style={{ // must be here
               fontSize: '20px',
-              padding: '8px 24px',
-              fontFamily: 'var(--m-plus-rounded-1c)',
             }}
             onClick={() => {
               doClientCredentialsAPI();
               setIsDoingClientCredentials(true);
             }
             }
+          ><p className='loginButtonText'
           >
-            今すぐ見つける
+              今すぐ見つける
+            </p>
             <ArrowForwardIcon />
           </SpotifyColorButton>
         </div>
@@ -139,33 +163,68 @@ function Login() {
         >
           1. Spotifyにログイン
         </div> */}
-          <div className='howtoContent'
+          <p className='howtoContent'
           >
             1. 検索またはランダムに選んで、お気に入りの跳びポを見つける
-          </div>
-          <div className='howtoContent'
+          </p>
+          <p className='howtoContent'
           >
             2. ツイートボタンでシェア！！
-          </div>
+          </p>
         </div>
         <div className='tobipoPlaylistContainer fadein4'
         >
           <h2>参照元のプレイリスト</h2>
-          <div className='disclaimerContainer'
-          >※本サイトはプレイリスト制作者とは一切関係ありません。</div>
+          <p className='disclaimerContainer'
+          >※本サイトはプレイリスト制作者とは一切関係ありません。</p>
           <iframe src={"https://open.spotify.com/embed/playlist/1evrJkF0lPEDvUa1RlTKJt"}
             width="90%" height="480" frameBorder="0"
             allow="encrypted-media">
           </iframe>
         </div>
-        <div className='disclaimerContainer fadein4'>
-          最新メンテナンス日: 2024/3/22 (データベースの更新日とは関係ありません)
+        <p className='othersContainer fadein4'>
+          最新メンテナンス日: 2024/3/23
           <br />
-          <a href="https://twitter.com/akaakuhub" target="_blank">Akaaku</a>&apos;s product
-          <p>
-            当サイトでは、ユーザー体験の向上やサイトの最適化のため、GoogleアナリティクスとそのためのCookieを使用しています。
-          </p>
-        </div>
+          (データベースの更新日とは関係ありません)
+          <br />
+          <Button onClick={handleOpen}>プライバシーポリシー</Button>
+          <br />
+          <br />
+          <Button href="https://twitter.com/akaakuhub" target="_blank"
+            style={{ textTransform: 'none' }} // must be here
+          >Akaaku</Button>&apos;s product
+        </p>
+        <Modal
+          open={isModalOpen}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={modalStyle}>
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                プライバシーポリシー
+              </Typography>
+              <IconButton onClick={handleClose}>
+                <CloseIcon />
+              </IconButton>
+            </Box>
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              本サイトでは、ユーザー体験の向上やサイトの最適化のため、Googleアナリティクスを使用しています。
+              <br />
+              Googleアナリティクスでは、Cookieを使用して、個人を特定できない形で匿名データを収集しています。
+              <br />
+              もしデータ収集を拒否したい場合は、お使いのブラウザの設定を変更してください。
+              <br />
+              <br />
+              詳しくは、
+              <a href="https://marketingplatform.google.com/about/analytics/terms/jp/" target="_blank">Googleアナリティクス利用規約</a>
+              や
+              <a href="https://policies.google.com/technologies/ads?hl=ja" target="_blank">Googleのポリシーと規約</a>
+              をご確認ください。
+            </Typography>
+          </Box>
+        </Modal>
         <LoadingCircleCustom1 loading={isDoingClientCredentials} />
       </div>
     </>
