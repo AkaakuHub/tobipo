@@ -5,6 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import SpotifyColorButton from "../(parts)/SpotifyColorButton";
 import LoadingCircleCustom1 from '../(parts)/LoadingCircleCustom1';
+import CustomLink from '../(parts)/CustomButton';
 
 import { judgeStatus, fetch_doClientCredentials } from '@/libs/APIhandler';
 
@@ -119,14 +120,16 @@ function Login() {
           <SpotifyColorButton
             style={{ // must be here
               fontSize: '20px',
+              fontFamily: 'var(--m-plus-rounded-1c)',
             }}
             onClick={() => {
               doClientCredentialsAPI();
               setIsDoingClientCredentials(true);
             }
             }
-          ><p className='loginButtonText'
           >
+            <p className='loginButtonText'
+            >
               今すぐ見つける
             </p>
             <ArrowForwardIcon />
@@ -187,12 +190,17 @@ function Login() {
           <br />
           (データベースの更新日とは関係ありません)
           <br />
-          <Button onClick={handleOpen}>プライバシーポリシー</Button>
+          <span onClick={handleOpen}>
+            <CustomLink>
+              プライバシーポリシー
+            </CustomLink>
+          </span>
           <br />
           <br />
-          <Button href="https://twitter.com/akaakuhub" target="_blank"
-            style={{ textTransform: 'none' }} // must be here
-          >Akaaku</Button>&apos;s product
+          <CustomLink href="https://twitter.com/akaakuhub" target="_blank">
+            Akaaku
+          </CustomLink>
+          &apos;s product
         </p>
         <Modal
           open={isModalOpen}
