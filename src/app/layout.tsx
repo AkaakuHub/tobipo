@@ -3,9 +3,6 @@ import "./globals.css";
 
 import { GoogleAnalytics } from '@next/third-parties/google';
 
-// import { Suspense } from "react";
-// import { GoogleAnalytics } from "@/components/(parts)/GoogleAnalytics";
-
 const siteName: string = "跳びポHub";
 const description: string = "すべての跳びポが、ここにある。";
 const url: string = process.env.NEXT_PUBLIC_BASE_URL || "";
