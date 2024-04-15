@@ -213,9 +213,11 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   height: 100%;
   margin-top: 20px;
   margin-bottom: 20px;
+  gap: 40px;
 }
 
 .loginButtonText{
@@ -233,7 +235,7 @@ html {
 .disclaimerContainer {
   margin-top: 20px;
   margin-bottom: 10px;
-  font-size: 1.1em;
+  font-size: 0.9em;
   text-align: center;
 }
 

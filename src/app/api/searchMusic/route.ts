@@ -33,13 +33,18 @@ const searchMusic = async (search: string, token: string, maxMusicCount: number)
             params: {
                 q: search,
                 type: 'track',
-                limit: maxMusicCount
+                limit: maxMusicCount,
+                // limit: 1,
+                market: 'JP'// 日本の楽曲を検索するため
             },
             headers: {
                 'Authorization': `Bearer ${token}`,
-                'Accept-Language': 'ja'
+                'Accept-Language': 'ja;q=1',
             }
         });
+        // なぜかアーティスト名が英語のときがある
+        // console.log(response.data.tracks.items);
+        // console.log(response.data.tracks.items[0].artists);
         const data = response.data.tracks.items;
         const extractedItem = extractTobipoData(data, "search");
         return extractedItem;

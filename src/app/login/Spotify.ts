@@ -1,14 +1,14 @@
-// export const authEndpoint = "https://accounts.spotify.com/authorize";
+export const authEndpoint = "https://accounts.spotify.com/authorize";
 
-// // 対応する範囲を決める
-// const scopes = [
-//     // "user-read-currently-playing",
-//     // "user-read-recently-played",
-//     // "user-read-playback-state",
-//     // "user-top-read",
-//     // "user-modify-playback-state",
-//     ""
-// ];
+// 対応する範囲を決める
+const scopes = [
+    // "user-read-currently-playing",
+    // "user-read-recently-played",
+    // "user-read-playback-state",
+    // "user-top-read",
+    // "user-modify-playback-state",
+    ""
+];
 
 export const getTokenFromUrl = () => {
     return window.location.hash
@@ -21,6 +21,8 @@ export const getTokenFromUrl = () => {
         }, {});
 }
 
+const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
+const redirectUri = process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI;
 
-// // SpotifyのログインページのURL
-// export const accessUrl = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`;
+// SpotifyのログインページのURL
+export const accessUrl = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`;

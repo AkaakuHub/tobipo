@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CloseIcon from '@mui/icons-material/Close';
+import LoginIcon from '@mui/icons-material/Login';
 
 import SpotifyColorButton from "../(parts)/SpotifyColorButton";
 import LoadingCircleCustom1 from '../(parts)/LoadingCircleCustom1';
@@ -14,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
 
+import { accessUrl } from '@/app/login/Spotify';
 
 import GlobalStyle from "@/libs/GlobalStyle";
 
@@ -111,10 +113,22 @@ function Login() {
                 {errorMessage}
               </div>
             </div>
-
           )}
         </div>
         <div className='loginButtonContainer fadein2'>
+          <SpotifyColorButton
+            style={{ // must be here
+              fontSize: '20px',
+              fontFamily: 'var(--m-plus-rounded-1c)',
+            }}
+            href={accessUrl}
+          >
+            <p className='loginButtonText'
+            >
+              Spotifyでログイン
+            </p>
+            <LoginIcon />
+          </SpotifyColorButton>
           <SpotifyColorButton
             style={{ // must be here
               fontSize: '20px',
@@ -128,7 +142,7 @@ function Login() {
           >
             <p className='loginButtonText'
             >
-              今すぐ見つける
+              ログインなしで続行
             </p>
             <ArrowForwardIcon />
           </SpotifyColorButton>
@@ -136,11 +150,13 @@ function Login() {
         {
           /* ログインを不要にした */
         }
-        {/* <div className='disclaimerContainer fadein2'
-      >
-        ※本サイトはSpotifyのデータベースを使用するため、ログインが必要となります。<br />
-        ユーザー名やログイン情報などは一切収集いたしません。
-      </div> */}
+        <div className='disclaimerContainer fadein2'
+        >
+          ※Spotifyでログインすると、ユーザーごとにカスタマイズされた検索結果の表示が可能です。
+          <br />
+          ログインなしでも利用可能ですが、その場合検索結果のクオリティが低くなることがあります。
+          なお、ユーザー名やログイン情報などは一切収集いたしません。
+        </div>
 
         {/* やりたかったけど重すぎるのでボツ */}
         {/* <div className='tobipo-card-container'>
