@@ -199,8 +199,18 @@ function Login() {
             allow="encrypted-media">
           </iframe>
         </div>
+        <div className='tobipoPlaylistContainer fadein4'
+        >
+          <h2>除外プレイリスト</h2>
+          <p className='disclaimerContainer'
+          >※個人的見解を含みます。</p>
+          <iframe src={"https://open.spotify.com/embed/playlist/1nECnLmaLqey4nztKpiayI"}
+            width="90%" height="480" frameBorder="0"
+            allow="encrypted-media">
+          </iframe>
+        </div>
         <p className='othersContainer fadein4'>
-          最新メンテナンス日: 2024/3/23
+          最新メンテナンス日: 2024/4/28
           <br />
           (データベースの更新日とは関係ありません)
           <br />
