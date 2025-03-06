@@ -209,7 +209,7 @@ function Login() {
             allow="encrypted-media">
           </iframe>
         </div>
-        <p className='othersContainer fadein4'>
+        <div className='othersContainer fadein4'>
           最新メンテナンス日: 2024/4/28
           <br />
           (データベースの更新日とは関係ありません)
@@ -225,7 +225,7 @@ function Login() {
             Akaaku
           </CustomLink>
           &apos;s product
-        </p>
+        </div>
         <Modal
           open={isModalOpen}
           onClose={handleClose}

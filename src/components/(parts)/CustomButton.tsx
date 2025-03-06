@@ -19,9 +19,9 @@ const CustomButton = styled(Button) <CustomButtonProps>`
 const CustomLink: React.FC<CustomButtonProps> = ({ children, href, target }) => {
   return (
     <CustomButton href={href} target={target ? target : "_self"}>
-      <p style={{ margin: 0 }}>
+      <div style={{ margin: 0 }}>
         {children}
-      </p>
+      </div>
     </CustomButton>
   );
 };
