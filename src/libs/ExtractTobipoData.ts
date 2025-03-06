@@ -9,9 +9,9 @@ const extractTobipoData = (data: any, kind: string) => {
     acc[item.id] = {
       songName: item.name,
       artist: item.artists[0].name,
-      image640_url: item.album.images[0].url,
-      preview_url: item.preview_url,
-      external_urls_spotify: item.external_urls.spotify,
+      image640_url: item.album.images[0]?.url || "",
+      preview_url: item?.preview_url || null,
+      external_urls_spotify: item?.external_urls.spotify || "",
     };
     return acc;
   }, {});

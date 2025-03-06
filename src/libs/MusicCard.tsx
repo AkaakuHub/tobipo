@@ -122,7 +122,11 @@ const makeMusicCard = (id: string, data: TobipoData, isTobipo: boolean) => {
           />
         </div>
       </a>
-      <AudioPlayer src={data.preview_url} />
+      {
+        data.preview_url && (
+          <AudioPlayer src={data.preview_url} />
+        )
+      }
       {isTobipo &&
         <div className='TwitterButtonContainer'
         >

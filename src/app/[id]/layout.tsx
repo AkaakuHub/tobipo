@@ -3,18 +3,21 @@ import type { Metadata } from "next";
 import { fetch_metadata } from "@/libs/APIhandler";
 
 export const generateMetadata = async ({ params }: { params: { id: string } }): Promise<Metadata> => {
+  const resolvedParams = await params;
+  const songID = resolvedParams.id;
+
   let siteName: string = "跳びポHub";
   let description: string = "すべての跳びポが、ここにある。";
   let url: string = process.env.NEXT_PUBLIC_BASE_URL || "";
   let image640_url: string = `${url}/ogp_default.png`;
   // idは22文字固定
-  if (params.id.length === 22) {
-    const res = await fetch_metadata(params.id);
+  if (songID.length === 22) {
+    const res = await fetch_metadata(songID);
     const data = await res.json()
 
     siteName = `${data.songName} - 跳びポHub`;
     description = "すべての跳びポが、ここにある。";
-    url = process.env.NEXT_PUBLIC_BASE_URL + "/" + params.id || "";
+    url = process.env.NEXT_PUBLIC_BASE_URL + "/" + songID || "";
     image640_url = data.image640_url;
   }
 

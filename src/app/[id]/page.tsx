@@ -3,14 +3,18 @@
 // import { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useParams } from 'next/navigation';
 // import HomeIcon from '@mui/icons-material/Home';
 
-function Page({ params }: { params: { id: string } }) {
+function Page() {
   // const [isVerified, setIsVerified] = useState(false);
   // useEffect(() => {
   //   const token = sessionStorage.getItem('temp_token');
   //   setIsVerified(!!token);
   // }, []);
+
+  const params = useParams<{ id: string }>();
+  const songID = params.id;
 
   return (
     <div>
@@ -33,7 +37,7 @@ function Page({ params }: { params: { id: string } }) {
       </Button>
       <div className='iframeSoloContainer'
       >
-        <iframe src={`https://open.spotify.com/embed/track/${params.id}`}
+        <iframe src={`https://open.spotify.com/embed/track/${songID}`}
           allow="encrypted-media"
           frameBorder={0}
           style={{ backgroundColor: 'transparent' }}
