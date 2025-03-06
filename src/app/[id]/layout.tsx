@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 
 import { fetch_metadata } from "@/libs/APIhandler";
 
-export const generateMetadata = async ({ params }: { params: { id: string } }): Promise<Metadata> => {
-  const resolvedParams = await params;
-  const songID = resolvedParams.id;
+export const generateMetadata = async ({ params }: { params: any }): Promise<Metadata> => {
+  const songID = (await params).id;
 
   let siteName: string = "跳びポHub";
   let description: string = "すべての跳びポが、ここにある。";
